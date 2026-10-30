@@ -2,6 +2,7 @@
 date: '1'
 title: 'AI-Powered Practice Management Suite'
 showInFeatured: true
+order: 4
 github: ''
 external: ''
 cta: ''

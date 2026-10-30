@@ -2,6 +2,7 @@
 date: '2'
 title: 'Multi-Agent Workflow Automation Platform'
 showInFeatured: true
+order: 5
 github: ''
 external: ''
 cta: ''

@@ -25,6 +25,7 @@ yarn serve
 - `content/jobs/` contains the experience entries shown on the homepage.
 - `content/featured/` contains the featured project descriptions.
 - `content/projects/` contains the other project cards and archive entries.
+- Project Markdown uses an `order` field to control homepage display order and an `image` path for screenshots stored in `static/projects/`.
 - `src/config.js` contains contact details, social links, navigation, and site colors.
 - `src/images/logo.png` is the site icon; `static/og.png` is the social preview image.
 

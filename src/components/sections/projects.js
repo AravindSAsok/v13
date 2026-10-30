@@ -76,6 +76,29 @@ const StyledProject = styled.li`
     overflow: auto;
   }
 
+  .project-image {
+    display: block;
+    width: calc(100% + 3.5rem);
+    aspect-ratio: 16 / 9;
+    margin: -2rem -1.75rem 1.5rem;
+    overflow: hidden;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    background-color: var(--navy);
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.25s ease;
+    }
+
+    &:hover img,
+    &:focus-visible img {
+      transform: scale(1.025);
+    }
+  }
+
   .project-top {
     ${({ theme }) => theme.mixins.flexBetween};
     margin-bottom: 35px;
@@ -173,7 +196,7 @@ const Projects = () => {
           fileAbsolutePath: { regex: "/content/projects/" }
           frontmatter: { showInProjects: { ne: false } }
         }
-        sort: { fields: [frontmatter___date], order: DESC }
+        sort: { fields: [frontmatter___order], order: ASC }
       ) {
         edges {
           node {
@@ -182,6 +205,8 @@ const Projects = () => {
               tech
               github
               external
+              image
+              order
             }
             html
           }
@@ -213,11 +238,34 @@ const Projects = () => {
 
   const projectInner = node => {
     const { frontmatter, html } = node;
-    const { github, external, title, tech } = frontmatter;
+    const { github, external, title, tech, image } = frontmatter;
     const projectLink = external || github;
 
     return (
       <div className="project-inner">
+        {image &&
+          (projectLink ? (
+            <a
+              className="project-image"
+              href={projectLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${title} project`}>
+              <img
+                src={image}
+                alt={`${title} application screenshot`}
+                loading="lazy"
+              />
+            </a>
+          ) : (
+            <div className="project-image">
+              <img
+                src={image}
+                alt={`${title} application screenshot`}
+                loading="lazy"
+              />
+            </div>
+          ))}
         <header>
           <div className="project-top">
             <div className="folder">
@@ -307,9 +355,11 @@ const Projects = () => {
         )}
       </ul>
 
-      <button className="more-button" onClick={() => setShowMore(!showMore)}>
-        Show {showMore ? 'Less' : 'More'}
-      </button>
+      {projects.length > GRID_LIMIT && (
+        <button className="more-button" onClick={() => setShowMore(!showMore)}>
+          Show {showMore ? 'Less' : 'More'}
+        </button>
+      )}
     </StyledProjectsSection>
   );
 };

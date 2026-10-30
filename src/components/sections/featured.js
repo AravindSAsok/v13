@@ -267,10 +267,33 @@ const StyledProject = styled.li`
 
     overflow: hidden;
 
+    img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &.has-image {
+      background: var(--light-navy);
+
+      &::before,
+      &::after,
+      .project-placeholder-inner {
+        display: none;
+      }
+    }
+
     @media (max-width: 768px) {
       grid-column: 1 / -1;
       min-height: 100%;
       opacity: 0.25;
+
+      &.has-image {
+        opacity: 0.45;
+      }
     }
 
     &::before {
@@ -313,7 +336,7 @@ const Featured = () => {
           fileAbsolutePath: { regex: "/content/featured/" }
           frontmatter: { showInFeatured: { eq: true } }
         }
-        sort: { fields: [frontmatter___date], order: ASC }
+        sort: { fields: [frontmatter___order], order: ASC }
       ) {
         edges {
           node {
@@ -323,6 +346,8 @@ const Featured = () => {
               github
               external
               cta
+              image
+              order
             }
             html
           }
@@ -361,7 +386,7 @@ const Featured = () => {
         {featuredProjects.map(({ node }, i) => {
           const { frontmatter, html } = node;
 
-          const { external, title, tech = [], github, cta } = frontmatter;
+          const { external, title, tech = [], github, cta, image } = frontmatter;
 
           const projectLink = external || github;
 
@@ -419,12 +444,27 @@ const Featured = () => {
               {projectLink ? (
                 <a
                   href={projectLink}
-                  className="project-placeholder"
+                  className={image ? 'project-placeholder has-image' : 'project-placeholder'}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={`${title} project`}>
+                  {image && (
+                    <img
+                      src={image}
+                      alt={`${title} application screenshot`}
+                      loading="lazy"
+                    />
+                  )}
                   <span className="project-placeholder-inner">{title}</span>
                 </a>
+              ) : image ? (
+                <div className="project-placeholder has-image">
+                  <img
+                    src={image}
+                    alt={`${title} application screenshot`}
+                    loading="lazy"
+                  />
+                </div>
               ) : (
                 <div className="project-placeholder" aria-hidden="true">
                   <span className="project-placeholder-inner">{title}</span>
