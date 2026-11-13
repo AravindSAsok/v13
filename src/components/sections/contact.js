@@ -11,7 +11,7 @@ const StyledContactSection = styled.section`
   padding: clamp(34px, 6vw, 68px) clamp(22px, 5vw, 54px);
   border: 1px solid rgba(136, 146, 176, 0.17);
   border-radius: 20px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(100, 255, 218, 0.09), transparent 55%), linear-gradient(145deg, rgba(17, 34, 64, 0.72), rgba(8, 20, 39, 0.94));
+  background: radial-gradient(ellipse at 50% 0%, rgba(168, 255, 96, 0.09), transparent 55%), linear-gradient(145deg, rgba(17, 34, 64, 0.72), rgba(8, 20, 39, 0.94));
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.2);
   text-align: center;
 
@@ -58,10 +58,10 @@ const StyledContactSection = styled.section`
     margin-top: 34px;
     padding: 17px 28px;
     border-radius: 8px;
-    background: rgba(100, 255, 218, 0.045);
+    background: rgba(168, 255, 96, 0.045);
     transition: transform 180ms ease, background 180ms ease;
 
-    &:hover { transform: translateY(-3px); background: rgba(100, 255, 218, 0.1); }
+    &:hover { transform: translateY(-3px); background: rgba(168, 255, 96, 0.1); }
   }
 `;
 
