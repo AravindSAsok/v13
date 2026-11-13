@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql, withPrefix } from 'gatsby';
 import styled from 'styled-components';
 import sr from '@utils/sr';
 import { srConfig } from '@config';
@@ -450,7 +450,7 @@ const Featured = () => {
                   aria-label={`${title} project`}>
                   {image && (
                     <img
-                      src={image}
+                      src={withPrefix(image)}
                       alt={`${title} application screenshot`}
                       loading="lazy"
                     />
@@ -460,7 +460,7 @@ const Featured = () => {
               ) : image ? (
                 <div className="project-placeholder has-image">
                   <img
-                    src={image}
+                    src={withPrefix(image)}
                     alt={`${title} application screenshot`}
                     loading="lazy"
                   />

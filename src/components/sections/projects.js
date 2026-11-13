@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useStaticQuery, graphql } from 'gatsby';
+import { Link, useStaticQuery, graphql, withPrefix } from 'gatsby';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 import { srConfig } from '@config';
@@ -252,7 +252,7 @@ const Projects = () => {
               rel="noopener noreferrer"
               aria-label={`Open ${title} project`}>
               <img
-                src={image}
+                src={withPrefix(image)}
                 alt={`${title} application screenshot`}
                 loading="lazy"
               />
@@ -260,7 +260,7 @@ const Projects = () => {
           ) : (
             <div className="project-image">
               <img
-                src={image}
+                src={withPrefix(image)}
                 alt={`${title} application screenshot`}
                 loading="lazy"
               />

@@ -74,7 +74,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background-color: var(--navy);
+    background: radial-gradient(ellipse at 82% 8%, rgba(100, 255, 218, 0.055), transparent 34%), radial-gradient(ellipse at 12% 58%, rgba(87, 203, 255, 0.035), transparent 38%), var(--navy);
     color: var(--slate);
     font-family: var(--font-sans);
     font-size: var(--fz-xl);
@@ -144,6 +144,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   section {
+    scroll-margin-top: calc(var(--nav-scroll-height) + 24px);
     margin: 0 auto;
     padding: 100px 0;
     max-width: 1000px;
