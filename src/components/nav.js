@@ -139,6 +139,11 @@ const StyledLinks = styled.div`
         border-radius: 7px;
         transition: color 180ms ease, background 180ms ease;
 
+        &[aria-current='location'] {
+          color: var(--green);
+          background: rgba(168, 255, 96, 0.075);
+        }
+
         &:hover {
           background: rgba(168, 255, 96, 0.07);
         }
@@ -160,6 +165,7 @@ const Nav = ({ isHome }) => {
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState('');
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const handleScroll = () => {
@@ -175,7 +181,21 @@ const Nav = ({ isHome }) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll);
 
+    const sectionIds = navLinks.map(({ url }) => url.split('#')[1]).filter(Boolean);
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+    let observer;
+    if ('IntersectionObserver' in window && sections.length) {
+      observer = new IntersectionObserver(entries => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActiveSection(visible.target.id);
+      }, { rootMargin: '-25% 0px -60% 0px', threshold: [0, 0.15, 0.35, 0.6] });
+      sections.forEach(section => observer.observe(section));
+    }
+
     return () => {
+      if (observer) observer.disconnect();
       if (timeout) clearTimeout(timeout);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
@@ -216,7 +236,7 @@ const Nav = ({ isHome }) => {
                 {navLinks &&
                   navLinks.map(({ url, name }, i) => (
                     <li key={i}>
-                      <Link to={url}>{name}</Link>
+                      <Link to={url} aria-current={activeSection && url.endsWith(`#${activeSection}`) ? 'location' : undefined}>{name}</Link>
                     </li>
                   ))}
               </ol>
