@@ -262,7 +262,7 @@ const Nav = ({ isHome }) => {
                     navLinks.map(({ url, name }, i) => (
                       <CSSTransition key={i} classNames={fadeDownClass} timeout={timeout}>
                         <li key={i} style={{ transitionDelay: `${isHome ? i * 100 : 0}ms` }}>
-                          <Link to={url}>{name}</Link>
+                          <Link to={url} aria-current={activeSection && url.endsWith(`#${activeSection}`) ? 'location' : undefined}>{name}</Link>
                         </li>
                       </CSSTransition>
                     ))}
