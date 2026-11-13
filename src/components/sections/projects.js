@@ -48,13 +48,15 @@ const StyledProject = styled.li`
   cursor: default;
   transition: var(--transition);
 
-  @media (prefers-reduced-motion: no-preference) {
-    &:hover,
-    &:focus-within {
-      .project-inner {
-        transform: translateY(-7px);
-      }
+  &:hover,
+  &:focus-within {
+    .project-inner {
+      transform: ${props => (props.$reduceMotion ? 'none' : 'translateY(-7px)')};
+      border-color: rgba(168, 255, 96, 0.38);
+      box-shadow: 0 26px 65px rgba(0, 0, 0, 0.24), 0 0 26px rgba(168, 255, 96, 0.065);
     }
+
+    .project-image img { transform: ${props => (props.$reduceMotion ? 'none' : 'scale(1.035)')}; }
   }
 
   a {
@@ -74,7 +76,7 @@ const StyledProject = styled.li`
     border-radius: 15px;
     background: linear-gradient(145deg, rgba(17, 34, 64, 0.94), rgba(8, 20, 39, 0.98));
     box-shadow: 0 18px 55px rgba(0, 0, 0, 0.15);
-    transition: var(--transition);
+    transition: ${props => (props.$reduceMotion ? 'none' : 'transform 280ms ease, border-color 280ms ease, box-shadow 280ms ease')};
     overflow: hidden;
   }
 
@@ -94,7 +96,7 @@ const StyledProject = styled.li`
       height: 100%;
       object-fit: contain;
       padding: 10px;
-      transition: transform 0.25s ease;
+      transition: ${props => (props.$reduceMotion ? 'none' : 'transform 280ms ease')};
     }
 
     &:hover img,
@@ -233,14 +235,12 @@ const Projects = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
+    if (prefersReducedMotion) return;
 
     sr.reveal(revealTitle.current, srConfig());
     sr.reveal(revealArchiveLink.current, srConfig());
     revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
-  }, []);
+  }, [prefersReducedMotion]);
 
   const GRID_LIMIT = 6;
   const projects = data.projects.edges.filter(({ node }) => node);
@@ -358,7 +358,7 @@ const Projects = () => {
           <>
             {projectsToShow &&
               projectsToShow.map(({ node }, i) => (
-                <StyledProject key={i}>{projectInner(node)}</StyledProject>
+                <StyledProject key={i} $reduceMotion={prefersReducedMotion}>{projectInner(node)}</StyledProject>
               ))}
           </>
         ) : (
@@ -372,6 +372,7 @@ const Projects = () => {
                   exit={false}>
                   <StyledProject
                     key={i}
+                    $reduceMotion={prefersReducedMotion}
                     ref={el => (revealProjects.current[i] = el)}
                     style={{
                       transitionDelay: `${i >= GRID_LIMIT ? (i - GRID_LIMIT) * 100 : 0}ms`,
