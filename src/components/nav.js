@@ -179,6 +179,10 @@ const StyledLinks = styled.div`
       }
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    a, a:after { transition: none !important; }
+  }
 `;
 
 const Nav = ({ isHome }) => {
