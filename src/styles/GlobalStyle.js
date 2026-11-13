@@ -458,6 +458,31 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  html.route-leaving #content {
+    opacity: 0.72;
+    transform: translateY(5px);
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+
+  html.route-entering #content {
+    animation: route-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes route-enter {
+    from { opacity: 0.72; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.route-leaving #content,
+    html.route-entering #content {
+      animation: none !important;
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
   ${TransitionStyles};
 
   ${PrismStyles};
