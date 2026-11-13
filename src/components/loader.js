@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { IconLoader } from '@components/icons';
+import { usePrefersReducedMotion } from '@hooks';
 
 const StyledLoader = styled.div`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -66,6 +67,16 @@ const StyledLoader = styled.div`
       fill: none;
       user-select: none;
       animation: logo-glow 2s ease-in-out infinite;
+
+      path {
+        stroke-dasharray: 360;
+        stroke-dashoffset: 360;
+        animation: logo-draw 850ms 120ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+      }
+
+      path + path {
+        animation-delay: 420ms;
+      }
     }
   }
 
@@ -124,6 +135,10 @@ const StyledLoader = styled.div`
     to { opacity: 1; transform: scale(1); }
   }
 
+  @keyframes logo-draw {
+    to { stroke-dashoffset: 0; }
+  }
+
   @keyframes logo-glow {
     0%, 100% { transform: translateY(0); opacity: 0.88; }
     50% { transform: translateY(-3px); opacity: 1; }
@@ -139,19 +154,21 @@ const StyledLoader = styled.div`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &, &:before, &:after, .loader-content, .logo-wrapper svg, .loader-progress {
+    &, &:before, &:after, .loader-content, .logo-wrapper svg, .logo-wrapper svg path, .loader-progress {
       animation: none !important;
     }
   }
 `;
 
 const Loader = ({ finishLoading }) => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useEffect(() => {
     const reducedMotion = window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const timeout = window.setTimeout(finishLoading, reducedMotion ? 180 : 1300);
+    const timeout = window.setTimeout(finishLoading, prefersReducedMotion || reducedMotion ? 180 : 1300);
     return () => window.clearTimeout(timeout);
-  }, [finishLoading]);
+  }, [finishLoading, prefersReducedMotion]);
 
   return (
     <StyledLoader className="loader" role="status" aria-label="Loading portfolio">
