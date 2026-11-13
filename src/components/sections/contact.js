@@ -19,6 +19,10 @@ const StyledContactSection = styled.section`
     margin: 0 auto 50px;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .email-link { transition: none; transform: none; }
+  }
+
   .overline {
     display: block;
     margin-bottom: 20px;
@@ -59,9 +63,9 @@ const StyledContactSection = styled.section`
     padding: 17px 28px;
     border-radius: 8px;
     background: rgba(168, 255, 96, 0.045);
-    transition: transform 180ms ease, background 180ms ease;
+    transition: ${props => (props.$reduceMotion ? 'none' : 'transform 180ms ease, background 180ms ease')};
 
-    &:hover { transform: translateY(-3px); background: rgba(168, 255, 96, 0.1); }
+    &:hover { transform: ${props => (props.$reduceMotion ? 'none' : 'translateY(-3px)')}; background: rgba(168, 255, 96, 0.1); }
   }
 `;
 
@@ -75,10 +79,10 @@ const Contact = () => {
     }
 
     sr.reveal(revealContainer.current, srConfig());
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
-    <StyledContactSection id="contact" ref={revealContainer}>
+    <StyledContactSection id="contact" ref={revealContainer} $reduceMotion={prefersReducedMotion}>
       <h2 className="numbered-heading overline">What’s Next?</h2>
 
       <h2 className="title">Let's Work Together</h2>
