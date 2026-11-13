@@ -1,11 +1,13 @@
 const config = require('./src/config');
 
 module.exports = {
+  pathPrefix: '/v13',
+
   siteMetadata: {
     title: 'Aravind S Asok',
     description:
       'Aravind S Asok is a Software Engineer focused on building scalable backend systems, reliable APIs, and AI-powered applications.',
-    siteUrl: 'https://aravindsasok.netlify.app',
+    siteUrl: 'https://aravindsasok.github.io/v13',
     image: '/og.png',
   },
 
@@ -23,7 +25,7 @@ module.exports = {
       options: {
         name: 'Aravind S Asok',
         short_name: 'Aravind S Asok',
-        start_url: '/',
+        start_url: '/v13/',
         background_color: config.colors.darkNavy,
         theme_color: config.colors.navy,
         display: 'minimal-ui',
