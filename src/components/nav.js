@@ -25,6 +25,19 @@ const StyledHeader = styled.header`
   backdrop-filter: blur(10px);
   transition: var(--transition);
 
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: ${props => props.scrollProgress}%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), rgba(87, 203, 255, 0.85));
+    box-shadow: 0 0 12px rgba(168, 255, 96, 0.32);
+    transition: width 100ms linear;
+    pointer-events: none;
+  }
+
   @media (max-width: 1080px) {
     padding: 0 40px;
   }
@@ -146,28 +159,28 @@ const Nav = ({ isHome }) => {
   const [isMounted, setIsMounted] = useState(!isHome);
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const handleScroll = () => {
-    setScrolledToTop(window.pageYOffset < 50);
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    setScrolledToTop(scrollTop < 50);
+    setScrollProgress(scrollableHeight > 0 ? Math.min(100, (scrollTop / scrollableHeight) * 100) : 0);
   };
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      setIsMounted(true);
-    }, 100);
-
-    window.addEventListener('scroll', handleScroll);
+    const timeout = prefersReducedMotion ? null : setTimeout(() => setIsMounted(true), 100);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
 
     return () => {
-      clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   const timeout = isHome ? loaderDelay : 0;
   const fadeClass = isHome ? 'fade' : '';
@@ -192,7 +205,7 @@ const Nav = ({ isHome }) => {
   );
 
   return (
-    <StyledHeader scrollDirection={scrollDirection} scrolledToTop={scrolledToTop}>
+    <StyledHeader scrollDirection={scrollDirection} scrolledToTop={scrolledToTop} scrollProgress={scrollProgress}>
       <StyledNav>
         {prefersReducedMotion ? (
           <>
