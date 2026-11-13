@@ -1,108 +1,379 @@
-import React, { useState, useEffect } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import React from 'react';
 import styled from 'styled-components';
-import { navDelay, loaderDelay } from '@utils';
-import { usePrefersReducedMotion } from '@hooks';
 
 const StyledHeroSection = styled.section`
-  ${({ theme }) => theme.mixins.flexCenter};
-  flex-direction: column;
-  align-items: flex-start;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  align-items: center;
+  gap: clamp(40px, 7vw, 110px);
   min-height: 100vh;
-  height: 100vh;
-  padding: 0;
+  padding: 130px 0 90px !important;
+  isolation: isolate;
 
-  @media (max-height: 700px) and (min-width: 700px), (max-width: 360px) {
-    height: auto;
-    padding-top: var(--nav-height);
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 18%;
+    right: -18%;
+    width: 620px;
+    height: 620px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100, 255, 218, 0.09), transparent 68%);
+    filter: blur(12px);
+    pointer-events: none;
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    animation: hero-enter 700ms ease both;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 28px;
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    &:before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--green);
+    }
   }
 
   h1 {
-    margin: 0 0 30px 4px;
-    color: var(--green);
-    font-family: var(--font-mono);
-    font-size: clamp(var(--fz-sm), 5vw, var(--fz-md));
-    font-weight: 400;
+    margin: 0 0 18px;
+    color: var(--lightest-slate);
+    font-size: clamp(48px, 7.2vw, 92px);
+    font-weight: 650;
+    letter-spacing: -0.065em;
+    line-height: 0.98;
 
-    @media (max-width: 480px) {
-      margin: 0 0 20px 2px;
+    span {
+      display: block;
+      color: var(--green);
     }
   }
 
-  h3 {
-    margin-top: 5px;
+  .hero-role {
+    max-width: 680px;
+    margin: 0;
     color: var(--slate);
-    line-height: 0.9;
+    font-size: clamp(23px, 3vw, 34px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.25;
   }
 
-  p {
-    margin: 20px 0 0;
-    max-width: 600px;
+  .hero-description {
+    max-width: 570px;
+    margin: 26px 0 0;
+    color: var(--light-slate);
+    font-size: clamp(16px, 1.5vw, 18px);
+    line-height: 1.8;
   }
 
-  .email-link {
-    ${({ theme }) => theme.mixins.bigButton};
-    margin-top: 50px;
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-top: 36px;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border: 1px solid var(--green);
+      border-radius: 6px;
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: var(--fz-xs);
+      letter-spacing: 0.02em;
+      transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        background: var(--green-tint);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+      }
+
+      &.secondary {
+        border-color: rgba(168, 178, 209, 0.25);
+        color: var(--lightest-slate);
+
+        &:hover {
+          border-color: var(--light-slate);
+          background: rgba(168, 178, 209, 0.06);
+        }
+      }
+    }
+  }
+
+  .hero-footnote {
+    margin-top: 30px;
+    color: var(--dark-slate);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .systems-panel {
+    position: relative;
+    width: 100%;
+    max-width: 510px;
+    justify-self: end;
+    padding: 1px;
+    border: 1px solid rgba(136, 146, 176, 0.2);
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(100, 255, 218, 0.16), rgba(87, 203, 255, 0.02) 42%, rgba(245, 125, 255, 0.1));
+    box-shadow: 0 35px 100px rgba(0, 0, 0, 0.28);
+    animation: panel-float 8s ease-in-out infinite;
+
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset: 12% -10%;
+      border-radius: 50%;
+      background: rgba(87, 203, 255, 0.08);
+      filter: blur(55px);
+    }
+  }
+
+  .panel-inner {
+    padding: clamp(22px, 3vw, 34px);
+    border-radius: 17px;
+    background: linear-gradient(155deg, rgba(17, 34, 64, 0.98), rgba(7, 18, 36, 0.98));
+  }
+
+  .panel-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(136, 146, 176, 0.16);
+    color: var(--slate);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .panel-dots {
+    display: flex;
+    gap: 6px;
+
+    i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--dark-slate);
+
+      &:first-child { background: var(--green); }
+      &:nth-child(2) { background: var(--blue); }
+      &:nth-child(3) { background: var(--pink); }
+    }
+  }
+
+  .system-flow {
+    display: grid;
+    gap: 12px;
+    padding: 25px 0 20px;
+  }
+
+  .system-node {
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    align-items: center;
+    gap: 13px;
+    padding: 15px;
+    border: 1px solid rgba(136, 146, 176, 0.14);
+    border-radius: 10px;
+    background: rgba(10, 25, 47, 0.68);
+    transition: border-color 180ms ease, transform 180ms ease;
+
+    &:hover {
+      transform: translateX(4px);
+      border-color: rgba(100, 255, 218, 0.42);
+    }
+  }
+
+  .node-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    border-radius: 9px;
+    background: rgba(100, 255, 218, 0.07);
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .node-copy {
+    min-width: 0;
+
+    strong {
+      display: block;
+      color: var(--lightest-slate);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    span {
+      display: block;
+      margin-top: 4px;
+      color: var(--slate);
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+  }
+
+  .node-status {
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .panel-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(136, 146, 176, 0.16);
+
+    span {
+      padding: 7px 9px;
+      border: 1px solid rgba(136, 146, 176, 0.16);
+      border-radius: 5px;
+      color: var(--light-slate);
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+  }
+
+  @keyframes hero-enter {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes panel-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 55px;
+    padding: 150px 0 90px !important;
+
+    .systems-panel {
+      justify-self: start;
+      max-width: 560px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    min-height: auto;
+    gap: 42px;
+    padding: 135px 0 70px !important;
+
+    .eyebrow { margin-bottom: 22px; }
+    h1 { font-size: clamp(45px, 14vw, 66px); }
+    .hero-actions { gap: 10px; }
+    .hero-actions a { min-height: 48px; padding: 0 16px; }
+    .panel-inner { padding: 18px; }
+    .system-node { grid-template-columns: 38px 1fr; padding: 12px; }
+    .node-icon { width: 38px; height: 38px; }
+    .node-status { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-copy, .systems-panel { animation: none; }
+    .system-node, .hero-actions a { transition: none; }
   }
 `;
 
-const Hero = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const timeout = setTimeout(() => setIsMounted(true), navDelay);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  const one = <h1>Hi, I'm Aravind S Asok.</h1>;
-
-  const two = <h2 className="big-heading">I build scalable backend systems.</h2>;
-
-  const three = <h3 className="big-heading">And AI-powered applications.</h3>;
-
-  const four = (
-    <>
-      <p>
-        I'm a Software Engineer focused on building reliable APIs, backend architectures, and
-        intelligent workflows. I work with Node.js, TypeScript, NestJS, Python, PostgreSQL, and
-        modern AI technologies including LLM APIs, RAG, and multi-agent systems.
+const Hero = () => (
+  <StyledHeroSection id="home">
+    <div className="hero-copy">
+      <p className="eyebrow">Software engineer · Backend & applied AI</p>
+      <h1>
+        I build
+        <span>systems that</span>
+        move ideas forward.
+      </h1>
+      <p className="hero-role">Scalable backends. Thoughtful products. Practical AI.</p>
+      <p className="hero-description">
+        I’m Aravind S Asok — a software engineer working across Node.js, TypeScript, NestJS and
+        Python, with a growing focus on LLM applications, retrieval-augmented generation and
+        agentic workflows.
       </p>
-    </>
-  );
+      <div className="hero-actions">
+        <a href="#projects">Explore my work <span aria-hidden="true">&nbsp;↗</span></a>
+        <a className="secondary" href="#contact">Let’s talk</a>
+      </div>
+      <p className="hero-footnote">Designing the engine behind useful software</p>
+    </div>
 
-  const five = (
-    <a className="email-link" href="/#contact">
-      Get in touch
-    </a>
-  );
-
-  const items = [one, two, three, four, five];
-
-  return (
-    <StyledHeroSection>
-      {prefersReducedMotion ? (
-        <>
-          {items.map((item, i) => (
-            <div key={i}>{item}</div>
-          ))}
-        </>
-      ) : (
-        <TransitionGroup component={null}>
-          {isMounted &&
-            items.map((item, i) => (
-              <CSSTransition key={i} classNames="fadeup" timeout={loaderDelay}>
-                <div style={{ transitionDelay: `${i + 1}00ms` }}>{item}</div>
-              </CSSTransition>
-            ))}
-        </TransitionGroup>
-      )}
-    </StyledHeroSection>
-  );
-};
+    <div className="systems-panel" aria-label="Illustration of backend and AI engineering layers">
+      <div className="panel-inner">
+        <div className="panel-top">
+          <span>System architecture</span>
+          <span className="panel-dots" aria-hidden="true"><i /><i /><i /></span>
+        </div>
+        <div className="system-flow">
+          <div className="system-node">
+            <div className="node-icon">API</div>
+            <div className="node-copy">
+              <strong>Backend engineering</strong>
+              <span>Services · Auth · Integrations</span>
+            </div>
+            <span className="node-status">01 / CORE</span>
+          </div>
+          <div className="system-node">
+            <div className="node-icon">DB</div>
+            <div className="node-copy">
+              <strong>Data foundations</strong>
+              <span>PostgreSQL · Schema · Search</span>
+            </div>
+            <span className="node-status">02 / DATA</span>
+          </div>
+          <div className="system-node">
+            <div className="node-icon">AI</div>
+            <div className="node-copy">
+              <strong>Applied intelligence</strong>
+              <span>LLMs · RAG · Agent workflows</span>
+            </div>
+            <span className="node-status">03 / AI</span>
+          </div>
+        </div>
+        <div className="panel-footer">
+          <span>Node.js</span>
+          <span>TypeScript</span>
+          <span>NestJS</span>
+          <span>Python</span>
+          <span>LLM systems</span>
+        </div>
+      </div>
+    </div>
+  </StyledHeroSection>
+);
 
 export default Hero;
