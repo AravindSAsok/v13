@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Layout } from '@components';
 
-const Page = styled.main\`
+const Page = styled.main`
   width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
   padding: 150px 0 100px;
@@ -118,7 +118,7 @@ const Page = styled.main\`
   @media (max-width: 420px) {
     .flow { grid-template-columns: 1fr; }
   }
-\`;
+`;
 
 const KnowledgeTransfer = ({ location }) => (
   <Layout location={location}>
