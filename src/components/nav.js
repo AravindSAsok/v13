@@ -105,10 +105,11 @@ const StyledNav = styled.nav`
         }
       }
 
-      &:hover,
-      &:focus {
-        outline: 0;
-        transform: translate(-4px, -4px);
+      &:hover { transform: translate(-4px, -4px); }
+
+      &:focus-visible {
+        outline: 2px dashed var(--green);
+        outline-offset: 5px;
       }
     }
   }
@@ -137,16 +138,36 @@ const StyledLinks = styled.div`
       a {
         padding: 10px 12px;
         border-radius: 7px;
-        transition: color 180ms ease, background 180ms ease;
+        position: relative;
+        transition: ${props => (props.$reduceMotion ? 'none' : 'color 220ms ease, background 220ms ease')};
+
+        &:after {
+          content: '';
+          position: absolute;
+          right: 12px;
+          bottom: 4px;
+          left: 12px;
+          height: 1px;
+          background: var(--green);
+          opacity: ${props => (props.$reduceMotion ? 1 : 0)};
+          transform: ${props => (props.$reduceMotion ? 'none' : 'scaleX(0)')};
+          transform-origin: left center;
+          transition: ${props => (props.$reduceMotion ? 'none' : 'transform 220ms ease, opacity 220ms ease')};
+        }
 
         &[aria-current='location'] {
           color: var(--green);
           background: rgba(168, 255, 96, 0.075);
+
+          &:after { opacity: 1; transform: scaleX(1); }
         }
 
         &:hover {
           background: rgba(168, 255, 96, 0.07);
+          &:after { opacity: 0.8; transform: scaleX(1); }
         }
+
+        &:focus-visible:after { opacity: 1; transform: scaleX(1); }
 
         &:before {
           content: '0' counter(item) '.';
@@ -231,7 +252,7 @@ const Nav = ({ isHome }) => {
           <>
             {Logo}
 
-            <StyledLinks>
+            <StyledLinks $reduceMotion={prefersReducedMotion}>
               <ol>
                 {navLinks &&
                   navLinks.map(({ url, name }, i) => (
@@ -254,7 +275,7 @@ const Nav = ({ isHome }) => {
               )}
             </TransitionGroup>
 
-            <StyledLinks>
+            <StyledLinks $reduceMotion={prefersReducedMotion}>
               <ol>
                 <TransitionGroup component={null}>
                   {isMounted &&
