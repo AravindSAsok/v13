@@ -20,7 +20,7 @@ const StyledHeroSection = styled.section`
     width: 620px;
     height: 620px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(100, 255, 218, 0.09), transparent 68%);
+    background: radial-gradient(circle, rgba(168, 255, 96, 0.09), transparent 68%);
     filter: blur(12px);
     pointer-events: none;
   }
@@ -139,7 +139,7 @@ const StyledHeroSection = styled.section`
     padding: 1px;
     border: 1px solid rgba(136, 146, 176, 0.2);
     border-radius: 18px;
-    background: linear-gradient(145deg, rgba(100, 255, 218, 0.16), rgba(87, 203, 255, 0.02) 42%, rgba(245, 125, 255, 0.1));
+    background: linear-gradient(145deg, rgba(168, 255, 96, 0.16), rgba(87, 203, 255, 0.02) 42%, rgba(245, 125, 255, 0.1));
     box-shadow: 0 35px 100px rgba(0, 0, 0, 0.28);
     animation: panel-float 8s ease-in-out infinite;
 
@@ -208,7 +208,7 @@ const StyledHeroSection = styled.section`
 
     &:hover {
       transform: translateX(4px);
-      border-color: rgba(100, 255, 218, 0.42);
+      border-color: rgba(168, 255, 96, 0.42);
     }
   }
 
@@ -217,9 +217,9 @@ const StyledHeroSection = styled.section`
     place-items: center;
     width: 42px;
     height: 42px;
-    border: 1px solid rgba(100, 255, 218, 0.2);
+    border: 1px solid rgba(168, 255, 96, 0.2);
     border-radius: 9px;
-    background: rgba(100, 255, 218, 0.07);
+    background: rgba(168, 255, 96, 0.07);
     color: var(--green);
     font-family: var(--font-mono);
     font-size: 12px;
