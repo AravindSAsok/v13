@@ -1,4 +1,5 @@
 import React from 'react';
+import { usePrefersReducedMotion } from '@hooks';
 import styled from 'styled-components';
 
 const StyledHeroSection = styled.section`
@@ -23,6 +24,7 @@ const StyledHeroSection = styled.section`
     background: radial-gradient(circle, rgba(168, 255, 96, 0.09), transparent 68%);
     filter: blur(12px);
     pointer-events: none;
+    animation: ${props => (props.$reduceMotion ? 'none' : 'glow-drift 18s ease-in-out infinite alternate')};
   }
 
   .hero-copy {
@@ -31,8 +33,8 @@ const StyledHeroSection = styled.section`
     max-width: 760px;
 
     > * {
-      opacity: 0;
-      animation: hero-enter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      opacity: ${props => (props.$reduceMotion ? 1 : 0)};
+      animation: ${props => (props.$reduceMotion ? 'none' : 'hero-enter 650ms cubic-bezier(0.22, 1, 0.36, 1) both')};
     }
 
     > .eyebrow { animation-delay: 100ms; }
@@ -161,7 +163,7 @@ const StyledHeroSection = styled.section`
     border-radius: 18px;
     background: linear-gradient(145deg, rgba(168, 255, 96, 0.16), rgba(87, 203, 255, 0.02) 42%, rgba(245, 125, 255, 0.1));
     box-shadow: 0 35px 100px rgba(0, 0, 0, 0.28);
-    animation: panel-arrive 850ms 260ms cubic-bezier(0.22, 1, 0.36, 1) both, panel-float 8s 1.2s ease-in-out infinite;
+    animation: ${props => (props.$reduceMotion ? 'none' : 'panel-arrive 850ms 260ms cubic-bezier(0.22, 1, 0.36, 1) both, panel-float 8s 1.2s ease-in-out infinite')};
 
     &:after {
       content: '';
@@ -288,6 +290,11 @@ const StyledHeroSection = styled.section`
     }
   }
 
+  @keyframes glow-drift {
+    from { transform: translate3d(-2%, -1%, 0); }
+    to { transform: translate3d(3%, 2%, 0); }
+  }
+
   @keyframes hero-enter {
     from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
@@ -330,13 +337,16 @@ const StyledHeroSection = styled.section`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-copy > *, .systems-panel { animation: none; opacity: 1; }
+    &:before, .hero-copy > *, .systems-panel { animation: none !important; opacity: 1; transform: none; }
     .system-node, .hero-actions a { transition: none; }
   }
 `;
 
-const Hero = () => (
-  <StyledHeroSection id="home">
+const Hero = () => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  return (
+  <StyledHeroSection id="home" $reduceMotion={prefersReducedMotion}>
     <div className="hero-copy">
       <p className="eyebrow">Software engineer · Backend & applied AI</p>
       <h1>
@@ -399,6 +409,7 @@ const Hero = () => (
       </div>
     </div>
   </StyledHeroSection>
-);
+  );
+};
 
 export default Hero;
