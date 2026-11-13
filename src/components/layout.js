@@ -28,6 +28,18 @@ const Layout = ({ children, location }) => {
   };
 
   useEffect(() => {
+    if (!isHome) return;
+
+    try {
+      if (window.sessionStorage.getItem('portfolio-intro-seen') === 'true') {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      // Keep the intro available when session storage is unavailable.
+    }
+  }, [isHome]);
+
+  useEffect(() => {
     if (isLoading) {
       return;
     }
@@ -61,7 +73,16 @@ const Layout = ({ children, location }) => {
           </a>
 
           {isLoading && isHome ? (
-            <Loader finishLoading={() => setIsLoading(false)} />
+            <Loader
+              finishLoading={() => {
+                try {
+                  window.sessionStorage.setItem('portfolio-intro-seen', 'true');
+                } catch (error) {
+                  // The intro still finishes normally when storage is unavailable.
+                }
+                setIsLoading(false);
+              }}
+            />
           ) : (
             <StyledContent>
               <Nav isHome={isHome} />
