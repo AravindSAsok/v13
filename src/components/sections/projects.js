@@ -86,7 +86,7 @@ const StyledProject = styled.li`
     overflow: hidden;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     border-bottom: 1px solid rgba(136, 146, 176, 0.12);
-    background: radial-gradient(ellipse at 50% 0%, rgba(100, 255, 218, 0.1), transparent 60%), #081426;
+    background: radial-gradient(ellipse at 50% 0%, rgba(168, 255, 96, 0.1), transparent 60%), #081426;
 
     img {
       display: block;
@@ -187,7 +187,7 @@ const StyledProject = styled.li`
       padding: 6px 9px;
       border: 1px solid rgba(136, 146, 176, 0.14);
       border-radius: 5px;
-      background: rgba(100, 255, 218, 0.035);
+      background: rgba(168, 255, 96, 0.035);
       color: var(--light-slate);
       font-size: 10px;
       line-height: 1.5;
@@ -288,7 +288,8 @@ const Projects = () => {
           ) : (
             <div className="project-image">
               <img
-                src={withPrefix(image)}
+                src={imagePaths.local}
+                onError={handleImageError(imagePaths.fallback)}
                 alt={`${title} application screenshot`}
                 loading="lazy"
               />
