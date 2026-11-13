@@ -47,6 +47,8 @@ const SkillsGrid = styled.ul`
   list-style: none;
 
   li {
+    opacity: ${props => (props.$reduceMotion ? 1 : 0)};
+    animation: ${props => (props.$reduceMotion ? 'none' : 'skill-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards')};
     padding: 8px 11px;
     border: 1px solid rgba(136, 146, 176, 0.2);
     border-radius: 7px;
@@ -58,14 +60,34 @@ const SkillsGrid = styled.ul`
     transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
 
     &:hover {
-      transform: translateY(-2px);
+      transform: ${props => (props.$reduceMotion ? 'none' : 'translateY(-3px)')};
       border-color: rgba(168, 255, 96, 0.5);
       color: var(--green);
     }
   }
 
+  li:nth-child(1) { animation-delay: 40ms; }
+  li:nth-child(2) { animation-delay: 80ms; }
+  li:nth-child(3) { animation-delay: 120ms; }
+  li:nth-child(4) { animation-delay: 160ms; }
+  li:nth-child(5) { animation-delay: 200ms; }
+  li:nth-child(6) { animation-delay: 240ms; }
+  li:nth-child(7) { animation-delay: 280ms; }
+  li:nth-child(8) { animation-delay: 320ms; }
+  li:nth-child(9) { animation-delay: 360ms; }
+  li:nth-child(10) { animation-delay: 400ms; }
+  li:nth-child(11) { animation-delay: 440ms; }
+  li:nth-child(12) { animation-delay: 480ms; }
+  li:nth-child(13) { animation-delay: 520ms; }
+  li:nth-child(14) { animation-delay: 560ms; }
+
+  @keyframes skill-enter {
+    from { opacity: 0; transform: translateY(9px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    li { transition: none; }
+    li { animation: none !important; opacity: 1; transition: none; }
   }
 `;
 
@@ -109,6 +131,14 @@ const StyledPic = styled.div`
     &:hover:after {
       transform: translate(5px, 5px);
     }
+
+    .profile-illustration {
+      transition: transform 280ms ease;
+    }
+
+    &:hover .profile-illustration {
+      transform: scale(1.025);
+    }
   }
 
   .profile-illustration {
@@ -118,7 +148,8 @@ const StyledPic = styled.div`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .wrapper:after { transition: none; }
+    .wrapper:after, .profile-illustration { transition: none; }
+    .wrapper:hover .profile-illustration { transform: none; }
   }
 `;
 
@@ -173,7 +204,7 @@ const About = () => {
 
           <p className="skills-label">Core toolkit</p>
 
-          <SkillsGrid>
+          <SkillsGrid $reduceMotion={prefersReducedMotion}>
             {skills.map(skill => (
               <li key={skill}>{skill}</li>
             ))}
