@@ -33,7 +33,7 @@ module.exports = {
       },
     },
 
-    `gatsby-plugin-offline`,
+    // Offline caching is disabled while the portfolio is served from a GitHub Pages subpath.
 
     {
       resolve: `gatsby-source-filesystem`,

@@ -17,7 +17,8 @@ const StyledHeader = styled.header`
   padding: 0px 50px;
   width: 100%;
   height: var(--nav-height);
-  background-color: rgba(10, 25, 47, 0.85);
+  background: linear-gradient(180deg, rgba(8, 15, 30, 0.94), rgba(8, 15, 30, 0.76));
+  border-bottom: 1px solid rgba(136, 146, 176, 0.12);
   filter: none !important;
   pointer-events: auto !important;
   user-select: auto !important;
@@ -121,7 +122,13 @@ const StyledLinks = styled.div`
       font-size: var(--fz-xs);
 
       a {
-        padding: 10px;
+        padding: 10px 12px;
+        border-radius: 7px;
+        transition: color 180ms ease, background 180ms ease;
+
+        &:hover {
+          background: rgba(168, 255, 96, 0.07);
+        }
 
         &:before {
           content: '0' counter(item) '.';

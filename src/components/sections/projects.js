@@ -89,7 +89,7 @@ const StyledProject = styled.li`
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       transition: transform 0.25s ease;
     }
 
@@ -237,9 +237,25 @@ const Projects = () => {
   const projectsToShow = showMore ? projects : firstSix;
 
   const projectInner = node => {
+    const getImagePaths = image => {
+      const normalized = image.startsWith('/') ? image : `/${image}`;
+      return {
+        local: withPrefix(normalized),
+        fallback: `https://raw.githubusercontent.com/AravindSAsok/v13/main/static${normalized}`,
+      };
+    };
+    const handleImageError = fallback => event => {
+      if (event.currentTarget.dataset.fallbackApplied === 'true') {
+        event.currentTarget.style.display = 'none';
+        return;
+      }
+      event.currentTarget.dataset.fallbackApplied = 'true';
+      event.currentTarget.src = fallback;
+    };
     const { frontmatter, html } = node;
     const { github, external, title, tech, image } = frontmatter;
     const projectLink = external || github;
+    const imagePaths = image ? getImagePaths(image) : null;
 
     return (
       <div className="project-inner">
@@ -252,7 +268,8 @@ const Projects = () => {
               rel="noopener noreferrer"
               aria-label={`Open ${title} project`}>
               <img
-                src={withPrefix(image)}
+                src={imagePaths.local}
+                onError={handleImageError(imagePaths.fallback)}
                 alt={`${title} application screenshot`}
                 loading="lazy"
               />

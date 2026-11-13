@@ -6,325 +6,246 @@ import { srConfig } from '@config';
 import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
-const StyledProjectsGrid = styled.ul`
-  ${({ theme }) => theme.mixins.resetList};
+const StyledSection = styled.section`
+  max-width: 1180px;
 
-  a {
-    position: relative;
-    z-index: 1;
-  }
-`;
-
-const StyledProject = styled.li`
-  position: relative;
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(12, 1fr);
-  align-items: center;
-
-  @media (max-width: 768px) {
-    ${({ theme }) => theme.mixins.boxShadow};
-  }
-
-  &:not(:last-of-type) {
-    margin-bottom: 100px;
-
-    @media (max-width: 768px) {
-      margin-bottom: 70px;
-    }
-
-    @media (max-width: 480px) {
-      margin-bottom: 30px;
-    }
-  }
-
-  &:nth-of-type(odd) {
-    .project-content {
-      grid-column: 7 / -1;
-      text-align: right;
-
-      @media (max-width: 1080px) {
-        grid-column: 5 / -1;
-      }
-
-      @media (max-width: 768px) {
-        grid-column: 1 / -1;
-        padding: 40px 40px 30px;
-        text-align: left;
-      }
-
-      @media (max-width: 480px) {
-        padding: 25px 25px 20px;
-      }
-    }
-
-    .project-tech-list {
-      justify-content: flex-end;
-
-      @media (max-width: 768px) {
-        justify-content: flex-start;
-      }
-
-      li {
-        margin: 0 0 5px 20px;
-
-        @media (max-width: 768px) {
-          margin: 0 10px 5px 0;
-        }
-      }
-    }
-
-    .project-links {
-      justify-content: flex-end;
-      margin-left: 0;
-      margin-right: -10px;
-
-      @media (max-width: 768px) {
-        justify-content: flex-start;
-        margin-left: -10px;
-        margin-right: 0;
-      }
-    }
-
-    .project-placeholder {
-      grid-column: 1 / 8;
-
-      @media (max-width: 768px) {
-        grid-column: 1 / -1;
-      }
-    }
-  }
-
-  .project-content {
-    position: relative;
-    grid-column: 1 / 7;
-    grid-row: 1 / -1;
-
-    @media (max-width: 1080px) {
-      grid-column: 1 / 9;
-    }
-
-    @media (max-width: 768px) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100%;
-      grid-column: 1 / -1;
-      padding: 40px 40px 30px;
-      z-index: 5;
-    }
-
-    @media (max-width: 480px) {
-      padding: 30px 25px 20px;
-    }
-  }
-
-  .project-overline {
-    margin: 10px 0;
+  .section-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
     color: var(--green);
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
-    font-weight: 400;
-  }
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 
-  .project-title {
-    position: relative;
-    z-index: 2;
-    color: var(--lightest-slate);
-    font-size: clamp(24px, 5vw, 28px);
-
-    @media (min-width: 768px) {
-      margin: 0 0 20px;
-    }
-
-    @media (max-width: 768px) {
-      color: var(--white);
-
-      a {
-        position: static;
-
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          z-index: 0;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
-      }
+    &:before {
+      content: '';
+      width: 26px;
+      height: 1px;
+      background: var(--green);
     }
   }
 
-  .project-description {
-    ${({ theme }) => theme.mixins.boxShadow};
-    position: relative;
-    z-index: 2;
-    padding: 25px;
-    border-radius: var(--border-radius);
-    background-color: var(--light-navy);
-    color: var(--light-slate);
-    font-size: var(--fz-lg);
-    text-align: left;
-
-    @media (max-width: 768px) {
-      padding: 20px 0;
-      background-color: transparent;
-      box-shadow: none;
-
-      &:hover {
-        box-shadow: none;
-      }
-    }
-
-    a {
-      ${({ theme }) => theme.mixins.inlineLink};
-    }
-
-    strong {
-      color: var(--white);
-      font-weight: normal;
-    }
+  .section-intro {
+    max-width: 650px;
+    margin: -18px 0 42px;
+    color: var(--slate);
+    font-size: clamp(17px, 2vw, 20px);
+    line-height: 1.65;
   }
 
-  .project-tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 2;
-    margin: 25px 0 10px;
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
     padding: 0;
+    margin: 0;
     list-style: none;
 
-    li {
-      margin: 0 20px 5px 0;
-      color: var(--light-slate);
-      font-family: var(--font-mono);
-      font-size: var(--fz-xs);
-      white-space: nowrap;
-    }
-
-    @media (max-width: 768px) {
-      margin: 10px 0;
-
-      li {
-        margin: 0 10px 5px 0;
-        color: var(--lightest-slate);
-      }
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
   }
 
-  .project-links {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-top: 10px;
-    margin-left: -10px;
-    color: var(--lightest-slate);
+  @media (prefers-reduced-motion: reduce) {
+    .project-card, .project-image img { transition: none !important; }
+  }
+`;
 
-    a {
-      ${({ theme }) => theme.mixins.flexCenter};
-      padding: 10px;
+const ProjectCard = styled.li`
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(136, 146, 176, 0.16);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(17, 34, 64, 0.88), rgba(8, 20, 39, 0.96));
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.16);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 
-      &.external {
-        svg {
-          width: 22px;
-          height: 22px;
-          margin-top: -4px;
-        }
-      }
+  &:hover {
+    transform: translateY(-6px);
+    border-color: rgba(100, 255, 218, 0.38);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+  }
 
-      svg {
-        width: 20px;
-        height: 20px;
-      }
+  &:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+
+    .project-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+      align-items: end;
+      gap: 35px;
     }
 
-    .cta {
-      ${({ theme }) => theme.mixins.smallButton};
-      margin: 10px;
+    @media (max-width: 760px) {
+      grid-column: auto;
+      .project-body { display: block; }
     }
   }
 
-  /*
-   * Instead of a GatsbyImage, we use a styled project panel.
-   * This keeps featured projects working even when no cover image exists.
-   */
-  .project-placeholder {
-    grid-column: 6 / -1;
-    grid-row: 1 / -1;
+  .project-image {
     position: relative;
-    z-index: 1;
-    min-height: 300px;
-    border-radius: var(--border-radius);
-    background: linear-gradient(135deg, var(--light-navy), var(--navy));
-    ${({ theme }) => theme.mixins.boxShadow};
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
+    border-bottom: 1px solid rgba(136, 146, 176, 0.12);
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(100, 255, 218, 0.13), transparent 58%),
+      linear-gradient(135deg, #0b1a30, #07101f);
 
     img {
-      position: absolute;
-      inset: 0;
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      padding: 10px;
+      object-fit: contain;
+      transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
     }
 
-    &.has-image {
-      background: var(--light-navy);
+    &:hover img { transform: scale(1.035); }
 
-      &::before,
-      &::after,
-      .project-placeholder-inner {
-        display: none;
-      }
-    }
-
-    @media (max-width: 768px) {
-      grid-column: 1 / -1;
-      min-height: 100%;
-      opacity: 0.25;
-
-      &.has-image {
-        opacity: 0.45;
-      }
-    }
-
-    &::before {
-      content: '';
+    .image-label {
       position: absolute;
-      width: 220px;
-      height: 220px;
-      border: 1px solid var(--green);
-      border-radius: 50%;
-      opacity: 0.15;
+      top: 16px;
+      left: 16px;
+      z-index: 2;
+      padding: 7px 10px;
+      border: 1px solid rgba(136, 146, 176, 0.2);
+      border-radius: 5px;
+      background: rgba(5, 12, 24, 0.78);
+      color: var(--light-slate);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
     }
 
-    &::after {
-      content: '';
+    .image-index {
       position: absolute;
-      width: 140px;
-      height: 140px;
-      border: 1px solid var(--green);
-      border-radius: 50%;
-      opacity: 0.1;
+      right: 18px;
+      bottom: 14px;
+      color: rgba(204, 214, 246, 0.52);
+      font-family: var(--font-mono);
+      font-size: 11px;
     }
   }
 
-  .project-placeholder-inner {
-    position: relative;
-    z-index: 2;
+  .architecture-art {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    width: min(78%, 430px);
+    padding: 22px;
+    border: 1px solid rgba(100, 255, 218, 0.22);
+    border-radius: 12px;
+    background: rgba(6, 16, 31, 0.7);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+
+    span {
+      display: grid;
+      place-items: center;
+      min-height: 52px;
+      border: 1px solid rgba(100, 255, 218, 0.18);
+      border-radius: 7px;
+      background: rgba(100, 255, 218, 0.055);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    span:nth-child(2), span:nth-child(5) {
+      border-color: rgba(87, 203, 255, 0.22);
+      color: var(--blue);
+      background: rgba(87, 203, 255, 0.06);
+    }
+
+    span:nth-child(3), span:nth-child(6) {
+      border-color: rgba(245, 125, 255, 0.2);
+      color: var(--pink);
+      background: rgba(245, 125, 255, 0.05);
+    }
+  }
+
+  .project-body { padding: clamp(20px, 3vw, 30px); }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 13px;
     color: var(--green);
     font-family: var(--font-mono);
-    font-size: var(--fz-sm);
-    text-align: center;
-    padding: 30px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .project-title {
+    margin: 0 0 12px;
+    color: var(--lightest-slate);
+    font-size: clamp(23px, 3vw, 29px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+  }
+
+  .project-description {
+    color: var(--slate);
+    font-size: 16px;
+    line-height: 1.7;
+
+    p { margin: 0; }
+    strong { color: var(--lightest-slate); font-weight: 600; }
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 20px 0 0;
+    list-style: none;
+
+    li {
+      padding: 6px 9px;
+      border: 1px solid rgba(136, 146, 176, 0.16);
+      border-radius: 5px;
+      color: var(--light-slate);
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+  }
+
+  .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 23px;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--lightest-slate);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      transition: color 180ms ease, transform 180ms ease;
+
+      svg { width: 16px; height: 16px; }
+
+      &:hover {
+        color: var(--green);
+        transform: translateX(2px);
+      }
+    }
   }
 `;
 
@@ -356,125 +277,111 @@ const Featured = () => {
     }
   `);
 
-  const featuredProjects = data.featured.edges.filter(({ node }) => node);
-
+  const projects = data.featured.edges.filter(({ node }) => node);
   const revealTitle = useRef(null);
-  const revealProjects = useRef([]);
+  const revealCards = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
+    if (prefersReducedMotion) return;
     sr.reveal(revealTitle.current, srConfig());
-
-    revealProjects.current.forEach((ref, i) => {
-      if (ref) {
-        sr.reveal(ref, srConfig(i * 100));
-      }
+    revealCards.current.forEach((card, index) => {
+      if (card) sr.reveal(card, srConfig(index * 90));
     });
   }, [prefersReducedMotion]);
 
+  const getImagePaths = image => {
+    const normalized = image.startsWith('/') ? image : `/${image}`;
+    return {
+      local: withPrefix(normalized),
+      fallback: `https://raw.githubusercontent.com/AravindSAsok/v13/main/static${normalized}`,
+    };
+  };
+
+  const handleImageError = fallback => event => {
+    if (event.currentTarget.dataset.fallbackApplied === 'true') {
+      event.currentTarget.style.display = 'none';
+      return;
+    }
+    event.currentTarget.dataset.fallbackApplied = 'true';
+    event.currentTarget.src = fallback;
+  };
+
   return (
-    <section id="projects">
-      <h2 className="numbered-heading" ref={revealTitle}>
-        Some Things I’ve Built
-      </h2>
+    <StyledSection id="projects">
+      <p className="section-kicker">Selected work · 2024—2026</p>
+      <h2 className="numbered-heading" ref={revealTitle}>Products built to solve real problems</h2>
+      <p className="section-intro">
+        A selection of products and engineering systems spanning grounded AI, workflow automation,
+        and dependable backend platforms.
+      </p>
 
-      <StyledProjectsGrid>
-        {featuredProjects.map(({ node }, i) => {
+      <ul className="featured-grid">
+        {projects.map(({ node }, index) => {
           const { frontmatter, html } = node;
-
-          const { external, title, tech = [], github, cta, image } = frontmatter;
-
-          const projectLink = external || github;
+          const { title, tech = [], github, external, image } = frontmatter;
+          const imagePaths = image ? getImagePaths(image) : null;
+          const projectNumber = String(index + 1).padStart(2, '0');
 
           return (
-            <StyledProject
-              key={i}
-              ref={el => {
-                revealProjects.current[i] = el;
-              }}>
-              <div className="project-content">
-                <div>
-                  <p className="project-overline">Featured Project</p>
-
-                  <h3 className="project-title">
-                    {projectLink ? <a href={projectLink}>{title}</a> : title}
-                  </h3>
-
-                  <div className="project-description" dangerouslySetInnerHTML={{ __html: html }} />
-
-                  {tech.length > 0 && (
-                    <ul className="project-tech-list">
-                      {tech.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
-                  )}
-
-                  <div className="project-links">
-                    {cta && (
-                      <a href={cta} aria-label="Course Link" className="cta">
-                        Learn More
-                      </a>
-                    )}
-
-                    {github && (
-                      <a href={github} aria-label="GitHub Link" target="_blank" rel="noreferrer">
-                        <Icon name="GitHub" />
-                      </a>
-                    )}
-
-                    {external && !cta && (
-                      <a
-                        href={external}
-                        aria-label="External Link"
-                        className="external"
-                        target="_blank"
-                        rel="noreferrer">
-                        <Icon name="External" />
-                      </a>
-                    )}
+            <ProjectCard
+              key={title}
+              ref={element => { revealCards.current[index] = element; }}>
+              <div className="project-image">
+                <span className="image-label">{image ? 'Product preview' : 'System design'}</span>
+                {image ? (
+                  <img
+                    src={imagePaths.local}
+                    alt={`${title} product interface screenshot`}
+                    loading={index < 2 ? 'eager' : 'lazy'}
+                    onError={handleImageError(imagePaths.fallback)}
+                  />
+                ) : (
+                  <div className="architecture-art" aria-label="System architecture illustration">
+                    <span>API</span>
+                    <span>DATA</span>
+                    <span>LLM</span>
+                    <span>AUTH</span>
+                    <span>TOOLS</span>
+                    <span>JOBS</span>
                   </div>
-                </div>
+                )}
+                <span className="image-index">WORK / {projectNumber}</span>
               </div>
 
-              {projectLink ? (
-                <a
-                  href={projectLink}
-                  className={image ? 'project-placeholder has-image' : 'project-placeholder'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${title} project`}>
-                  {image && (
-                    <img
-                      src={withPrefix(image)}
-                      alt={`${title} application screenshot`}
-                      loading="lazy"
-                    />
+              <div className="project-body">
+                <div>
+                  <div className="project-meta">
+                    <span>Featured project</span>
+                    <span>{projectNumber} — 05</span>
+                  </div>
+                  <h3 className="project-title">{title}</h3>
+                  <div className="project-description" dangerouslySetInnerHTML={{ __html: html }} />
+                  {tech.length > 0 && (
+                    <ul className="project-tech">
+                      {tech.map((item, techIndex) => <li key={techIndex}>{item}</li>)}
+                    </ul>
                   )}
-                  <span className="project-placeholder-inner">{title}</span>
-                </a>
-              ) : image ? (
-                <div className="project-placeholder has-image">
-                  <img
-                    src={withPrefix(image)}
-                    alt={`${title} application screenshot`}
-                    loading="lazy"
-                  />
                 </div>
-              ) : (
-                <div className="project-placeholder" aria-hidden="true">
-                  <span className="project-placeholder-inner">{title}</span>
+
+                <div className="project-actions">
+                  {external && (
+                    <a href={external} target="_blank" rel="noopener noreferrer">
+                      Live product <Icon name="External" />
+                    </a>
+                  )}
+                  {github && (
+                    <a href={github} target="_blank" rel="noopener noreferrer">
+                      Source code <Icon name="GitHub" />
+                    </a>
+                  )}
                 </div>
-              )}
-            </StyledProject>
+              </div>
+            </ProjectCard>
           );
         })}
-      </StyledProjectsGrid>
-    </section>
+      </ul>
+    </StyledSection>
   );
 };
 
