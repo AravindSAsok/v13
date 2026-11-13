@@ -51,7 +51,7 @@ const StyledSection = styled.section`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .project-card, .project-image img { transition: none !important; transform: none !important; }
+    .featured-grid > li, .featured-grid > li .project-image img { transition: none !important; transform: none !important; }
   }
 `;
 
