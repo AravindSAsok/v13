@@ -66,7 +66,7 @@ const ProjectCard = styled.li`
 
   &:hover {
     transform: translateY(-6px);
-    border-color: rgba(100, 255, 218, 0.38);
+    border-color: rgba(168, 255, 96, 0.38);
     box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
   }
 
@@ -95,7 +95,7 @@ const ProjectCard = styled.li`
     overflow: hidden;
     border-bottom: 1px solid rgba(136, 146, 176, 0.12);
     background:
-      radial-gradient(ellipse at 50% 0%, rgba(100, 255, 218, 0.13), transparent 58%),
+      radial-gradient(ellipse at 50% 0%, rgba(168, 255, 96, 0.13), transparent 58%),
       linear-gradient(135deg, #0b1a30, #07101f);
 
     img {
@@ -142,7 +142,7 @@ const ProjectCard = styled.li`
     gap: 9px;
     width: min(78%, 430px);
     padding: 22px;
-    border: 1px solid rgba(100, 255, 218, 0.22);
+    border: 1px solid rgba(168, 255, 96, 0.22);
     border-radius: 12px;
     background: rgba(6, 16, 31, 0.7);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
@@ -151,9 +151,9 @@ const ProjectCard = styled.li`
       display: grid;
       place-items: center;
       min-height: 52px;
-      border: 1px solid rgba(100, 255, 218, 0.18);
+      border: 1px solid rgba(168, 255, 96, 0.18);
       border-radius: 7px;
-      background: rgba(100, 255, 218, 0.055);
+      background: rgba(168, 255, 96, 0.055);
       color: var(--green);
       font-family: var(--font-mono);
       font-size: 10px;
@@ -364,7 +364,7 @@ const Featured = () => {
                   )}
                 </div>
 
-                <div className="project-actions">
+                {(external || github) && <div className="project-actions">
                   {external && (
                     <a href={external} target="_blank" rel="noopener noreferrer">
                       Live product <Icon name="External" />
@@ -375,7 +375,7 @@ const Featured = () => {
                       Source code <Icon name="GitHub" />
                     </a>
                   )}
-                </div>
+                </div>}
               </div>
             </ProjectCard>
           );
