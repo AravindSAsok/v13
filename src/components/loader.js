@@ -108,8 +108,10 @@ const StyledLoader = styled.div`
 
   .loader-progress {
     display: block;
-    width: 42%;
+    width: 100%;
     height: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
     border-radius: inherit;
     background: var(--green);
     box-shadow: 0 0 14px rgba(168, 255, 96, 0.6);
@@ -145,8 +147,8 @@ const StyledLoader = styled.div`
   }
 
   @keyframes progress-sweep {
-    from { width: 0; }
-    to { width: 100%; }
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 
   @keyframes loader-exit {
