@@ -51,7 +51,7 @@ const StyledSection = styled.section`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .project-card, .project-image img { transition: none !important; }
+    .project-card, .project-image img { transition: none !important; transform: none !important; }
   }
 `;
 
@@ -62,12 +62,15 @@ const ProjectCard = styled.li`
   border-radius: 16px;
   background: linear-gradient(145deg, rgba(17, 34, 64, 0.88), rgba(8, 20, 39, 0.96));
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.16);
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  transition: ${props => (props.$reduceMotion ? 'none' : 'transform 280ms ease, border-color 280ms ease, box-shadow 280ms ease')};
 
-  &:hover {
-    transform: translateY(-6px);
+  &:hover,
+  &:focus-within {
+    transform: ${props => (props.$reduceMotion ? 'none' : 'translateY(-6px)')};
     border-color: rgba(168, 255, 96, 0.38);
-    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28), 0 0 28px rgba(168, 255, 96, 0.075);
+
+    .project-image img { transform: ${props => (props.$reduceMotion ? 'none' : 'scale(1.035)')}; }
   }
 
   &:last-child:nth-child(odd) {
@@ -104,10 +107,10 @@ const ProjectCard = styled.li`
       height: 100%;
       padding: 10px;
       object-fit: contain;
-      transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      transition: ${props => (props.$reduceMotion ? 'none' : 'transform 280ms cubic-bezier(0.2, 0.7, 0.2, 1)')};
     }
 
-    &:hover img { transform: scale(1.035); }
+    &:hover img { transform: ${props => (props.$reduceMotion ? 'none' : 'scale(1.035)')}; }
 
     .image-label {
       position: absolute;
@@ -326,6 +329,7 @@ const Featured = () => {
           return (
             <ProjectCard
               key={title}
+              $reduceMotion={prefersReducedMotion}
               ref={element => { revealCards.current[index] = element; }}>
               <div className="project-image">
                 <span className="image-label">{image ? 'Product preview' : 'System design'}</span>
