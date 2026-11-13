@@ -25,7 +25,11 @@ const IconLoader = () => (
 
       {/* A */}
       <path
-        fill="currentColor"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         d="
           M50 27
           L34 68
