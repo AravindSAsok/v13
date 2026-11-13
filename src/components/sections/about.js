@@ -56,7 +56,7 @@ const SkillsGrid = styled.ul`
 
     &:hover {
       transform: translateY(-2px);
-      border-color: rgba(100, 255, 218, 0.5);
+      border-color: rgba(168, 255, 96, 0.5);
       color: var(--green);
     }
   }
@@ -85,7 +85,7 @@ const StyledPic = styled.div`
     display: block;
     width: 100%;
     overflow: visible;
-    border: 1px solid rgba(100, 255, 218, 0.18);
+    border: 1px solid rgba(168, 255, 96, 0.18);
     border-radius: 14px;
     background: linear-gradient(145deg, rgba(17, 34, 64, 0.92), rgba(7, 18, 36, 0.92));
     box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
@@ -98,7 +98,7 @@ const StyledPic = styled.div`
       left: 16px;
       width: 100%;
       height: 100%;
-      border: 1px solid rgba(100, 255, 218, 0.45);
+      border: 1px solid rgba(168, 255, 96, 0.45);
       border-radius: 14px;
       transition: transform 220ms ease;
     }
