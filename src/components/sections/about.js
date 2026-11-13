@@ -3,91 +3,119 @@ import styled from 'styled-components';
 import backendAiIllustration from '../../images/backend-ai-illustration.svg';
 
 const AboutSection = styled.section`
-  max-width: 900px;
+  max-width: 1040px;
 
   .inner {
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 50px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+    align-items: start;
+    gap: clamp(40px, 7vw, 90px);
 
     @media (max-width: 768px) {
-      display: block;
+      grid-template-columns: 1fr;
+      gap: 42px;
     }
+  }
+
+  .copy p {
+    max-width: 690px;
+    margin: 0 0 18px;
+    color: var(--light-slate);
+    font-size: clamp(16px, 1.5vw, 18px);
+    line-height: 1.75;
+  }
+
+  .skills-label {
+    margin: 28px 0 14px !important;
+    color: var(--green) !important;
+    font-family: var(--font-mono);
+    font-size: var(--fz-xs) !important;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 `;
 
 const SkillsGrid = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(140px, 200px));
-  gap: 8px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
   padding: 0;
-  margin: 20px 0 0;
-  overflow: hidden;
+  margin: 0;
   list-style: none;
 
   li {
-    position: relative;
-    padding-left: 20px;
+    padding: 8px 11px;
+    border: 1px solid rgba(136, 146, 176, 0.2);
+    border-radius: 7px;
+    background: rgba(17, 34, 64, 0.55);
+    color: var(--light-slate);
     font-family: var(--font-mono);
-    font-size: var(--fz-sm);
+    font-size: 11px;
+    letter-spacing: 0.01em;
+    transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
 
-    &:before {
-      content: '▹';
-      position: absolute;
-      left: 0;
+    &:hover {
+      transform: translateY(-2px);
+      border-color: rgba(100, 255, 218, 0.5);
       color: var(--green);
     }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    li { transition: none; }
   }
 `;
 
 const StyledPic = styled.div`
   position: relative;
-  max-width: 300px;
+  width: 100%;
+  max-width: 360px;
+  justify-self: end;
+  margin-top: 12px;
 
   @media (max-width: 768px) {
-    margin: 50px auto 0;
-    width: 70%;
+    justify-self: center;
+    max-width: 320px;
+    width: 78%;
+    margin: 8px auto 0;
   }
 
   .wrapper {
-    display: block;
     position: relative;
+    display: block;
     width: 100%;
-    border-radius: 4px;
-    background-color: var(--navy);
-
-    &:hover,
-    &:focus {
-      background: transparent;
-    }
+    overflow: visible;
+    border: 1px solid rgba(100, 255, 218, 0.18);
+    border-radius: 14px;
+    background: linear-gradient(145deg, rgba(17, 34, 64, 0.92), rgba(7, 18, 36, 0.92));
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
 
     &:after {
       content: '';
-      display: block;
       position: absolute;
-      top: 20px;
-      left: 20px;
+      z-index: -1;
+      top: 16px;
+      left: 16px;
       width: 100%;
       height: 100%;
-      border: 2px solid var(--green);
-      border-radius: 4px;
-      z-index: -1;
-      transition: var(--transition);
+      border: 1px solid rgba(100, 255, 218, 0.45);
+      border-radius: 14px;
+      transition: transform 220ms ease;
     }
 
-    &:hover:after,
-    &:focus:after {
-      top: 15px;
-      left: 15px;
+    &:hover:after {
+      transform: translate(5px, 5px);
     }
   }
 
   .profile-illustration {
     display: block;
-    position: relative;
     width: 100%;
-    border-radius: 4px;
-    transition: var(--transition);
+    border-radius: 14px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wrapper:after { transition: none; }
   }
 `;
 
@@ -97,14 +125,16 @@ const About = () => {
     'TypeScript',
     'NestJS',
     'Python',
+    'FastAPI',
     'PostgreSQL',
     'MySQL',
     'REST APIs',
+    'Docker',
+    'AWS',
     'LLM APIs',
     'RAG',
     'LangChain',
     'MCP',
-    'Docker',
   ];
 
   return (
@@ -112,39 +142,29 @@ const About = () => {
       <h2 className="numbered-heading">About Me</h2>
 
       <div className="inner">
-        <div>
-          <div>
-            <p>
-              I'm a Software Engineer focused on building reliable backend systems, scalable APIs,
-              and AI-powered applications.
-            </p>
+        <div className="copy">
+          <p>
+            I’m a software engineer focused on the systems behind useful products — reliable APIs,
+            clear data models, secure access, and integrations that hold up as products grow.
+          </p>
 
-            <p>
-              My main stack includes Node.js, TypeScript, NestJS, Python, PostgreSQL, and MySQL. I
-              enjoy designing backend architectures, relational database schemas, authentication
-              systems, and integrations with external services.
-            </p>
+          <p>
+            My core work is in Node.js, TypeScript, NestJS, and Python. I build REST APIs, design
+            PostgreSQL and MySQL schemas, implement authentication and authorization, and connect
+            services such as Stripe.
+          </p>
 
-            <p>
-              More recently, I've been working with{' '}
-              <span className="highlight">
-                LLM APIs, RAG pipelines, LangChain, MCP, and multi-agent workflows
-              </span>{' '}
-              to build intelligent systems that can interact with real-world data and tools.
-            </p>
+          <p>
+            More recently, I’ve been building applied AI workflows with LLM APIs, RAG, LangChain,
+            MCP, and multi-agent systems. My focus is practical: connect models to real data and
+            tools, keep answers grounded, and make the whole system dependable.
+          </p>
 
-            <p>
-              I also have experience integrating services such as Stripe, building REST APIs,
-              working with Docker and CI/CD pipelines, and developing systems that are designed to
-              be maintainable and production-ready.
-            </p>
-
-            <p>Here are some technologies I've been working with recently:</p>
-          </div>
+          <p className="skills-label">Core toolkit</p>
 
           <SkillsGrid>
-            {skills.map((skill, i) => (
-              <li key={i}>{skill}</li>
+            {skills.map(skill => (
+              <li key={skill}>{skill}</li>
             ))}
           </SkillsGrid>
         </div>
@@ -154,7 +174,8 @@ const About = () => {
             <img
               className="profile-illustration"
               src={backendAiIllustration}
-              alt="Abstract illustration of REST APIs, databases, LLM and RAG services, and MCP tools connected to an AI workflow"
+              alt="Illustration of backend APIs, databases, and AI services connected in a workflow"
+              loading="lazy"
             />
           </div>
         </StyledPic>
