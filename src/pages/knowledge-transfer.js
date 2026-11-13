@@ -126,7 +126,7 @@ const KnowledgeTransfer = ({ location }) => (
       <title>Portfolio Knowledge Transfer | Aravind S Asok</title>
       <meta name="description" content="A technical and visual guide to the Gatsby portfolio: architecture, source structure, design system, motion, content and deployment." />
     </Helmet>
-    <Page id="content">
+    <Page>
       <span className="eyebrow">Engineering notes / Portfolio v13</span>
       <h1>Portfolio, from pixels to source code.</h1>
       <p className="lead">
