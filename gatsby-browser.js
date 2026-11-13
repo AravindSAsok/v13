@@ -12,3 +12,22 @@ export const onClientEntry = () => {
       .catch(() => {});
   }
 };
+
+
+// Subtle route transitions without adding another animation dependency.
+export const onPreRouteUpdate = ({ location, prevLocation }) => {
+  if (!prevLocation || location.pathname === prevLocation.pathname) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.documentElement.classList.add('route-leaving');
+};
+
+export const onRouteUpdate = ({ location, prevLocation }) => {
+  if (!prevLocation || location.pathname === prevLocation.pathname) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.documentElement.classList.remove('route-leaving');
+  document.documentElement.classList.add('route-entering');
+  window.setTimeout(() => {
+    document.documentElement.classList.remove('route-entering');
+  }, 460);
+};
