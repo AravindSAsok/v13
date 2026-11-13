@@ -74,7 +74,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background: radial-gradient(ellipse at 82% 8%, rgba(100, 255, 218, 0.055), transparent 34%), radial-gradient(ellipse at 12% 58%, rgba(87, 203, 255, 0.035), transparent 38%), var(--navy);
+    background: radial-gradient(ellipse at 82% 8%, rgba(168, 255, 96, 0.055), transparent 34%), radial-gradient(ellipse at 12% 58%, rgba(87, 203, 255, 0.035), transparent 38%), var(--navy);
     color: var(--slate);
     font-family: var(--font-sans);
     font-size: var(--fz-xl);
