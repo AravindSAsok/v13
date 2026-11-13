@@ -29,7 +29,18 @@ const StyledHeroSection = styled.section`
     position: relative;
     z-index: 2;
     max-width: 760px;
-    animation: hero-enter 700ms ease both;
+
+    > * {
+      opacity: 0;
+      animation: hero-enter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    > .eyebrow { animation-delay: 100ms; }
+    > h1 { animation-delay: 190ms; }
+    > .hero-role { animation-delay: 280ms; }
+    > .hero-description { animation-delay: 370ms; }
+    > .hero-actions { animation-delay: 460ms; }
+    > .hero-footnote { animation-delay: 550ms; }
   }
 
   .eyebrow {
@@ -108,6 +119,15 @@ const StyledHeroSection = styled.section`
         transform: translateY(-3px);
         background: var(--green-tint);
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+
+        span {
+          display: inline-block;
+          transform: translate(3px, -2px);
+        }
+      }
+
+      span {
+        transition: transform 180ms ease;
       }
 
       &.secondary {
@@ -141,7 +161,7 @@ const StyledHeroSection = styled.section`
     border-radius: 18px;
     background: linear-gradient(145deg, rgba(168, 255, 96, 0.16), rgba(87, 203, 255, 0.02) 42%, rgba(245, 125, 255, 0.1));
     box-shadow: 0 35px 100px rgba(0, 0, 0, 0.28);
-    animation: panel-float 8s ease-in-out infinite;
+    animation: panel-arrive 850ms 260ms cubic-bezier(0.22, 1, 0.36, 1) both, panel-float 8s 1.2s ease-in-out infinite;
 
     &:after {
       content: '';
@@ -273,6 +293,11 @@ const StyledHeroSection = styled.section`
     to { opacity: 1; transform: translateY(0); }
   }
 
+  @keyframes panel-arrive {
+    from { opacity: 0; transform: translateY(22px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
   @keyframes panel-float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-9px); }
@@ -305,7 +330,7 @@ const StyledHeroSection = styled.section`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-copy, .systems-panel { animation: none; }
+    .hero-copy > *, .systems-panel { animation: none; opacity: 1; }
     .system-node, .hero-actions a { transition: none; }
   }
 `;
