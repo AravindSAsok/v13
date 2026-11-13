@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import backendAiIllustration from '../../images/backend-ai-illustration.svg';
+import sr from '@utils/sr';
+import { srConfig } from '@config';
+import { usePrefersReducedMotion } from '@hooks';
 
 const AboutSection = styled.section`
   max-width: 1040px;
@@ -120,6 +123,14 @@ const StyledPic = styled.div`
 `;
 
 const About = () => {
+  const revealContainer = useRef(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    sr.reveal(revealContainer.current, srConfig());
+  }, [prefersReducedMotion]);
+
   const skills = [
     'Node.js',
     'TypeScript',
@@ -138,7 +149,7 @@ const About = () => {
   ];
 
   return (
-    <AboutSection id="about">
+    <AboutSection id="about" ref={revealContainer}>
       <h2 className="numbered-heading">About Me</h2>
 
       <div className="inner">
