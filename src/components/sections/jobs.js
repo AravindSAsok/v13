@@ -8,110 +8,101 @@ import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
 
 const StyledJobsSection = styled.section`
-  max-width: 700px;
+  max-width: 980px;
 
   .inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    align-items: start;
+    gap: 28px;
 
     @media (max-width: 600px) {
       display: block;
-    }
-
-    // Prevent container from jumping
-    @media (min-width: 700px) {
-      min-height: 340px;
     }
   }
 `;
 
 const StyledTabList = styled.div`
   position: relative;
-  z-index: 3;
-  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
   padding: 0;
   margin: 0;
   list-style: none;
 
   @media (max-width: 600px) {
-    display: flex;
+    flex-direction: row;
     overflow-x: auto;
     overflow-y: hidden;
     width: 100%;
-    padding: 0;
-    margin: 0 0 30px;
+    margin: 0 0 18px;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
   }
-
 `;
 
 const StyledTabButton = styled.button`
-  ${({ theme }) => theme.mixins.link};
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--tab-height);
-  padding: 0 20px 2px;
-  border-left: 2px solid var(--lightest-navy);
-  background-color: transparent;
+  min-height: 54px;
+  padding: 0 16px;
+  border: 1px solid rgba(136, 146, 176, 0.12);
+  border-left: 2px solid ${({ isActive }) => (isActive ? 'var(--green)' : 'rgba(136, 146, 176, 0.18)')};
+  border-radius: 0 8px 8px 0;
+  background: ${({ isActive }) => (isActive ? 'rgba(100, 255, 218, 0.075)' : 'rgba(17, 34, 64, 0.36)')};
   color: ${({ isActive }) => (isActive ? 'var(--green)' : 'var(--slate)')};
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
   text-align: left;
   white-space: nowrap;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
 
-  @media (max-width: 768px) {
-    padding: 0 15px 2px;
+  &:hover, &:focus {
+    background: rgba(100, 255, 218, 0.08);
+    color: var(--lightest-slate);
   }
+
   @media (max-width: 600px) {
-    ${({ theme }) => theme.mixins.flexCenter};
     flex: 0 0 auto;
     width: max-content;
     min-width: max-content;
-    padding: 0 16px;
-    border-left: 0;
-    border-bottom: 2px solid ${({ isActive }) => (isActive ? 'var(--green)' : 'var(--lightest-navy)')};
+    min-height: 46px;
+    border: 1px solid rgba(136, 146, 176, 0.14);
+    border-bottom: 2px solid ${({ isActive }) => (isActive ? 'var(--green)' : 'rgba(136, 146, 176, 0.18)')};
+    border-radius: 8px 8px 0 0;
     text-align: center;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: var(--light-navy);
   }
 `;
 
 const StyledHighlight = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  width: 2px;
-  height: var(--tab-height);
-  border-radius: var(--border-radius);
-  background: var(--green);
-  transform: translateY(calc(${({ activeTabId }) => activeTabId} * var(--tab-height)));
-  transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-  transition-delay: 0.1s;
-
-  @media (max-width: 600px) {
-    display: none;
-  }
+  display: none;
 `;
 
 const StyledTabPanels = styled.div`
   position: relative;
   width: 100%;
-  margin-left: 20px;
+  min-height: 340px;
+  margin-left: 0;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid rgba(136, 146, 176, 0.16);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(100, 255, 218, 0.07), transparent 42%),
+    linear-gradient(145deg, rgba(17, 34, 64, 0.78), rgba(8, 20, 39, 0.88));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
 
   @media (max-width: 600px) {
-    margin-left: 0;
+    min-height: 0;
   }
 `;
 
 const StyledTabPanel = styled.div`
   width: 100%;
   height: auto;
-  padding: 10px 5px;
+  padding: 8px 4px;
 
   ul {
     ${({ theme }) => theme.mixins.fancyList};
@@ -119,8 +110,9 @@ const StyledTabPanel = styled.div`
 
   h3 {
     margin-bottom: 2px;
-    font-size: var(--fz-xxl);
-    font-weight: 500;
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
     line-height: 1.3;
 
     .company {
@@ -129,11 +121,18 @@ const StyledTabPanel = styled.div`
   }
 
   .range {
-    margin-bottom: 25px;
+    display: inline-flex;
+    margin: 10px 0 24px;
+    padding: 6px 9px;
+    border: 1px solid rgba(136, 146, 176, 0.16);
+    border-radius: 5px;
     color: var(--light-slate);
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
   }
+
+  ul { line-height: 1.7; }
+  li { margin-bottom: 12px; color: var(--light-slate); }
 `;
 
 const Jobs = () => {

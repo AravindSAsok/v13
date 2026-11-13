@@ -27,10 +27,10 @@ const StyledProjectsSection = styled.section`
   .projects-grid {
     ${({ theme }) => theme.mixins.resetList};
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    grid-gap: 20px;
     position: relative;
-    margin-top: 50px;
+    margin-top: 38px;
 
     @media (max-width: 1080px) {
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -69,11 +69,13 @@ const StyledProject = styled.li`
     align-items: flex-start;
     position: relative;
     height: 100%;
-    padding: 2rem 1.75rem;
-    border-radius: var(--border-radius);
-    background-color: var(--light-navy);
+    padding: 2rem 1.75rem 1.75rem;
+    border: 1px solid rgba(136, 146, 176, 0.14);
+    border-radius: 15px;
+    background: linear-gradient(145deg, rgba(17, 34, 64, 0.94), rgba(8, 20, 39, 0.98));
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.15);
     transition: var(--transition);
-    overflow: auto;
+    overflow: hidden;
   }
 
   .project-image {
@@ -83,13 +85,15 @@ const StyledProject = styled.li`
     margin: -2rem -1.75rem 1.5rem;
     overflow: hidden;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    background-color: var(--navy);
+    border-bottom: 1px solid rgba(136, 146, 176, 0.12);
+    background: radial-gradient(ellipse at 50% 0%, rgba(100, 255, 218, 0.1), transparent 60%), #081426;
 
     img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: contain;
+      padding: 10px;
       transition: transform 0.25s ease;
     }
 
@@ -101,7 +105,7 @@ const StyledProject = styled.li`
 
   .project-top {
     ${({ theme }) => theme.mixins.flexBetween};
-    margin-bottom: 35px;
+    margin-bottom: 22px;
 
     .folder {
       color: var(--green);
@@ -140,7 +144,8 @@ const StyledProject = styled.li`
   .project-title {
     margin: 0 0 10px;
     color: var(--lightest-slate);
-    font-size: var(--fz-xxl);
+    font-size: clamp(22px, 2.5vw, 26px);
+    letter-spacing: -0.025em;
 
     a {
       position: static;
@@ -160,7 +165,8 @@ const StyledProject = styled.li`
 
   .project-description {
     color: var(--light-slate);
-    font-size: 17px;
+    font-size: 16px;
+    line-height: 1.65;
 
     a {
       ${({ theme }) => theme.mixins.inlineLink};
@@ -178,8 +184,13 @@ const StyledProject = styled.li`
 
     li {
       font-family: var(--font-mono);
-      font-size: var(--fz-xxs);
-      line-height: 1.75;
+      padding: 6px 9px;
+      border: 1px solid rgba(136, 146, 176, 0.14);
+      border-radius: 5px;
+      background: rgba(100, 255, 218, 0.035);
+      color: var(--light-slate);
+      font-size: 10px;
+      line-height: 1.5;
 
       &:not(:last-of-type) {
         margin-right: 15px;
