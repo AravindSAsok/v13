@@ -52,7 +52,7 @@ const StyledTabButton = styled.button`
   border: 1px solid rgba(136, 146, 176, 0.12);
   border-left: 2px solid ${({ isActive }) => (isActive ? 'var(--green)' : 'rgba(136, 146, 176, 0.18)')};
   border-radius: 0 8px 8px 0;
-  background: ${({ isActive }) => (isActive ? 'rgba(100, 255, 218, 0.075)' : 'rgba(17, 34, 64, 0.36)')};
+  background: ${({ isActive }) => (isActive ? 'rgba(168, 255, 96, 0.075)' : 'rgba(17, 34, 64, 0.36)')};
   color: ${({ isActive }) => (isActive ? 'var(--green)' : 'var(--slate)')};
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
@@ -61,7 +61,7 @@ const StyledTabButton = styled.button`
   transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
 
   &:hover, &:focus {
-    background: rgba(100, 255, 218, 0.08);
+    background: rgba(168, 255, 96, 0.08);
     color: var(--lightest-slate);
   }
 
@@ -90,7 +90,7 @@ const StyledTabPanels = styled.div`
   border: 1px solid rgba(136, 146, 176, 0.16);
   border-radius: 14px;
   background:
-    radial-gradient(ellipse at 100% 0%, rgba(100, 255, 218, 0.07), transparent 42%),
+    radial-gradient(ellipse at 100% 0%, rgba(168, 255, 96, 0.07), transparent 42%),
     linear-gradient(145deg, rgba(17, 34, 64, 0.78), rgba(8, 20, 39, 0.88));
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
 
