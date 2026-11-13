@@ -101,7 +101,7 @@ const StyledProject = styled.li`
 
     &:hover img,
     &:focus-visible img {
-      transform: scale(1.025);
+      transform: ${props => (props.$reduceMotion ? 'none' : 'scale(1.025)')};
     }
   }
 
@@ -173,6 +173,10 @@ const StyledProject = styled.li`
     a {
       ${({ theme }) => theme.mixins.inlineLink};
     }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-inner, .project-image img { transition: none !important; transform: none !important; }
   }
 
   .project-tech-list {
