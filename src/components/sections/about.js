@@ -125,19 +125,19 @@ const StyledPic = styled.div`
       height: 100%;
       border: 1px solid rgba(168, 255, 96, 0.45);
       border-radius: 14px;
-      transition: transform 220ms ease;
+      transition: ${props => (props.$reduceMotion ? 'none' : 'transform 220ms ease')};
     }
 
     &:hover:after {
-      transform: translate(5px, 5px);
+      transform: ${props => (props.$reduceMotion ? 'none' : 'translate(5px, 5px)')};
     }
 
     .profile-illustration {
-      transition: transform 280ms ease;
+      transition: ${props => (props.$reduceMotion ? 'none' : 'transform 280ms ease')};
     }
 
     &:hover .profile-illustration {
-      transform: scale(1.025);
+      transform: ${props => (props.$reduceMotion ? 'none' : 'scale(1.025)')};
     }
   }
 
@@ -211,7 +211,7 @@ const About = () => {
           </SkillsGrid>
         </div>
 
-        <StyledPic>
+        <StyledPic $reduceMotion={prefersReducedMotion}>
           <div className="wrapper">
             <img
               className="profile-illustration"
