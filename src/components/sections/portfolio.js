@@ -152,13 +152,7 @@ const Portfolio = () => {
         <aside className="mni-sidebar" aria-label="Profile and page navigation">
           <div className="mni-plate">
             <a className="mni-identity" href="#top" aria-label="Aravind S Asok, back to top">
-              <img
-                className="mni-avatar"
-                src="https://avatars.githubusercontent.com/u/69244672?v=4"
-                alt=""
-                width="44"
-                height="44"
-              />
+              <span className="mni-avatar mni-avatar-mark" aria-hidden="true">A.</span>
               <span>
                 <strong>Aravind S Asok</strong>
                 <small>SOFTWARE ENGINEER</small>

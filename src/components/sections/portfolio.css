@@ -94,6 +94,14 @@ body.portfolio-body #root {
   object-fit: cover;
   background: var(--mni-panel);
 }
+.mni-avatar-mark {
+  display: grid;
+  place-items: center;
+  color: var(--mni-orange);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.08em;
+}
 .mni-identity strong { display: block; color: var(--mni-text); font-size: 14px; font-weight: 600; line-height: 1.2; }
 .mni-identity small { display: block; margin-top: 5px; color: var(--mni-muted); font: 9px var(--mni-mono); letter-spacing: .08em; }
 .mni-bio { margin: 24px 0 17px; color: var(--mni-muted); font-size: 13px; line-height: 1.7; }
