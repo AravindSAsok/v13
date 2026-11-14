@@ -1,28 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { ThemeProvider } from 'styled-components';
+import { Head } from '@components';
+import { GlobalStyle, theme } from '@styles';
+import Portfolio from '@components/sections/portfolio';
 
-import { Layout, Hero, About, Jobs, Featured, Projects, Contact } from '@components';
-
-const StyledMainContainer = styled.main`
-  counter-reset: section;
-`;
-
-const IndexPage = ({ location }) => (
-  <Layout location={location}>
-    <StyledMainContainer className="fillHeight">
-      <Hero />
-      <About />
-      <Jobs />
-      <Featured />
-      <Projects />
-      <Contact />
-    </StyledMainContainer>
-  </Layout>
+const IndexPage = () => (
+  <ThemeProvider theme={theme}>
+    <>
+      <GlobalStyle />
+      <Head
+        title="Aravind S Asok"
+        description="Aravind S Asok — software engineer building reliable backend systems, APIs, and practical AI applications."
+      />
+      <Portfolio />
+    </>
+  </ThemeProvider>
 );
-
-IndexPage.propTypes = {
-  location: PropTypes.object.isRequired,
-};
 
 export default IndexPage;
