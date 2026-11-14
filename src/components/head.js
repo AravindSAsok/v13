@@ -32,9 +32,10 @@ const Head = ({ title, description, image }) => {
     image: `${siteUrl}${image || defaultImage}`,
     url: `${siteUrl}${pathname}`,
   };
+  const titleTemplate = seo.title === defaultTitle ? '%s' : `%s | ${defaultTitle}`;
 
   return (
-    <Helmet title={seo.title} defaultTitle={defaultTitle} titleTemplate={`%s | ${defaultTitle}`}>
+    <Helmet title={seo.title} defaultTitle={defaultTitle} titleTemplate={titleTemplate}>
       <html lang="en" />
 
       <meta name="description" content={seo.description} />

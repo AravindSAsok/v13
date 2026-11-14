@@ -7,7 +7,8 @@ const featuredProjects = [
   {
     title: 'AravindSAsok',
     lead: 'Showcases a full-stack engineer’s portfolio built with Gatsby, React and styled-components.',
-    language: 'Gatsby · React · TypeScript',
+    stack: 'Gatsby · React · TypeScript',
+    stars: 1,
     updated: 'Aug 2026',
     repoName: 'AravindSAsok/AravindSAsok',
     repo: 'https://github.com/AravindSAsok/AravindSAsok',
@@ -19,6 +20,7 @@ const featuredProjects = [
     summary: 'EvidencePilot analyzes PDFs, retrieves relevant passages, generates source-grounded answers with page citations, and audits claims for factual support. It includes semantic and keyword search, a Research Agent, human review workflows, and retrieval evaluation tools.',
     language: 'Python',
     updated: 'Nov 2026',
+    topics: ['genai'],
     repoName: 'AravindSAsok/EvidencePilot',
     repo: 'https://github.com/AravindSAsok/EvidencePilot',
     live: 'https://evidencepilot.streamlit.app/',
@@ -38,6 +40,7 @@ const featuredProjects = [
     summary: 'An AI-powered document research assistant that helps users interact with their documents and retrieve relevant information.',
     language: 'Python',
     updated: 'Nov 2026',
+    topics: ['artificial-intelligence', 'rag-chatbot'],
     repoName: 'AravindSAsok/profdoc_ai_v2',
     repo: 'https://github.com/AravindSAsok/profdoc_ai_v2',
     live: 'https://profdocai.streamlit.app/',
@@ -48,6 +51,7 @@ const featuredProjects = [
     summary: 'A research chat application that retrieves relevant excerpts from uploaded documents, keeps PDF page references, supports follow-up questions, and says when the provided sources do not contain enough evidence.',
     language: 'Python',
     updated: 'Nov 2026',
+    topics: ['ai', 'llm', 'rag', 'rag-pipeline'],
     repoName: 'AravindSAsok/phd-research-chat-mvp',
     repo: 'https://github.com/AravindSAsok/phd-research-chat-mvp',
     live: 'https://phd-research-chat-mvp-puchki.streamlit.app/',
@@ -310,14 +314,34 @@ const Portfolio = () => {
                     {project.summary && <p className="mni-project-summary">{project.summary}</p>}
 
                     <dl className="mni-project-facts">
+                      {typeof project.stars === 'number' && project.stars > 0 && (
+                        <div>
+                          <dt>Stars</dt>
+                          <dd>{project.stars}</dd>
+                        </div>
+                      )}
                       <div>
                         <dt>Updated</dt>
                         <dd>{project.updated}</dd>
                       </div>
-                      <div>
-                        <dt>Language</dt>
-                        <dd>{project.language}</dd>
-                      </div>
+                      {project.language && (
+                        <div>
+                          <dt>Language</dt>
+                          <dd>{project.language}</dd>
+                        </div>
+                      )}
+                      {project.stack && (
+                        <div>
+                          <dt>Stack</dt>
+                          <dd>{project.stack}</dd>
+                        </div>
+                      )}
+                      {project.topics && project.topics.length > 0 && (
+                        <div>
+                          <dt>Topics</dt>
+                          <dd>{project.topics.join(', ')}</dd>
+                        </div>
+                      )}
                     </dl>
 
                     <ul className="mni-project-links">
@@ -485,9 +509,20 @@ const Portfolio = () => {
             <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
             <a href="https://www.linkedin.com/in/aravind-asok/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
             <a href={'mailto:' + email}>Email ↗</a>
+            <a href="https://forkfolio.dev" target="_blank" rel="noopener noreferrer">Made with Forkfolio ↗</a>
           </div>
         </footer>
       </main>
+
+      <a
+        className="mni-forkfolio-credit"
+        href="https://forkfolio.dev"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Made with Forkfolio">
+        <span className="mni-forkfolio-mark" aria-hidden="true">ψ</span>
+        <span>made with forkfolio</span>
+      </a>
 
       <a className="mni-open-chat" href="#contact" aria-label="Open contact form">
         <svg viewBox="0 0 24 24" aria-hidden="true">

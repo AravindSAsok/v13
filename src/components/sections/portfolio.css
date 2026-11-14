@@ -458,6 +458,40 @@ body:has(.mni-site) #root {
   stroke-linejoin: round;
 }
 
+/* Small Forkfolio credit, matching the reference's fixed lower-left mark */
+.mni-forkfolio-credit {
+  position: fixed;
+  z-index: 89;
+  bottom: 14px;
+  left: 14px;
+  display: flex;
+  width: 120px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  border: 1px solid var(--mni-line);
+  border-radius: 14px;
+  background: rgba(10, 10, 10, 0.96);
+  color: var(--mni-text) !important;
+  font: 8px/1.2 var(--mni-mono);
+  letter-spacing: 0.045em;
+  text-transform: lowercase;
+}
+
+.mni-forkfolio-credit:hover {
+  border-color: rgba(236, 232, 223, 0.5);
+  background: #111;
+}
+
+.mni-forkfolio-mark {
+  display: block;
+  color: var(--mni-text);
+  font: 27px/0.9 var(--mni-display);
+  letter-spacing: 0;
+}
+
 /* Selected work: six editorial sticky plates */
 .mni-projects {
   position: relative;
@@ -1017,7 +1051,7 @@ body:has(.mni-site) #root {
   font: 10px/1.5 var(--mni-mono);
 }
 
-/* Minimal editorial footer; no third-party attribution */
+/* Minimal editorial footer with the reference attribution link */
 .mni-footer {
   display: flex;
   min-height: 1000px;
@@ -1355,6 +1389,17 @@ body:has(.mni-site) #root {
     bottom: 16px;
     width: 56px;
     height: 56px;
+  }
+
+  .mni-forkfolio-credit {
+    bottom: 12px;
+    left: 12px;
+    width: 106px;
+    height: 54px;
+  }
+
+  .mni-forkfolio-mark {
+    font-size: 23px;
   }
 
   .mni-open-chat svg {
