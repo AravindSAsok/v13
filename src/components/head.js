@@ -30,7 +30,7 @@ const Head = ({ title, description, image }) => {
     title: title || defaultTitle,
     description: description || defaultDescription,
     image: `${siteUrl}${image || defaultImage}`,
-    url: `${siteUrl}${pathname}`,
+    url: `${siteUrl}${pathname.replace(/^\/v13(?=\/|$)/, '')}`,
   };
   const titleTemplate = seo.title === defaultTitle ? '%s' : `%s | ${defaultTitle}`;
 
