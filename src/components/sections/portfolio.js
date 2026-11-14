@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { withPrefix } from 'gatsby';
 import { email } from '@config';
 import './portfolio.css';
@@ -87,9 +87,9 @@ const socialLinks = [
 ];
 
 const SectionHeading = ({ number, title, note }) => (
-  <div className="section-heading" data-reveal>
-    <div className="section-heading-main">
-      <span className="section-number">{number}</span>
+  <div className="mni-sec-heading" data-reveal>
+    <div className="mni-sec-title">
+      <span className="mni-sec-number">{number}</span>
       <h2>{title}</h2>
     </div>
     {note ? <p>{note}</p> : null}
@@ -97,13 +97,13 @@ const SectionHeading = ({ number, title, note }) => (
 );
 
 const Portfolio = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   useEffect(() => {
     const body = document.body;
     body.classList.add('portfolio-body');
     const nodes = document.querySelectorAll('[data-reveal]');
-    if (!('IntersectionObserver' in window)) {
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reducedMotion || !('IntersectionObserver' in window)) {
       nodes.forEach(node => node.classList.add('is-visible'));
       return () => body.classList.remove('portfolio-body');
     }
@@ -117,7 +117,7 @@ const Portfolio = () => {
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -35px 0px' },
+      { threshold: 0.12, rootMargin: '0px 0px -28px 0px' },
     );
 
     nodes.forEach(node => observer.observe(node));
@@ -127,8 +127,6 @@ const Portfolio = () => {
     };
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
-
   const handleContactSubmit = event => {
     event.preventDefault();
     const formData = new window.FormData(event.currentTarget);
@@ -137,192 +135,240 @@ const Portfolio = () => {
     const message = String(formData.get('message') || '').trim();
     const subject = 'Portfolio enquiry from ' + name;
     const body = 'Name: ' + name + '\nEmail: ' + sender + '\n\n' + message;
-    window.location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    window.location.href =
+      'mailto:' +
+      email +
+      '?subject=' +
+      encodeURIComponent(subject) +
+      '&body=' +
+      encodeURIComponent(body);
   };
 
   return (
-    <div className="portfolio" id="top">
-      <a className="skip-link" href="#main-content">Skip to content</a>
+    <div className="portfolio mni-site" id="top">
+      <a className="mni-skip-link" href="#main-content">Skip to content</a>
 
-      <header className="site-header">
-        <a className="brand-mark" href="#top" aria-label="Aravind S Asok, back to top">
-          <span className="brand-symbol">A<span>.</span></span>
-          <span className="brand-name">ARAVIND S ASOK</span>
-        </a>
+      <div className="mni-shell">
+        <aside className="mni-sidebar" aria-label="Profile and page navigation">
+          <div className="mni-plate">
+            <a className="mni-identity" href="#top" aria-label="Aravind S Asok, back to top">
+              <img
+                className="mni-avatar"
+                src="https://avatars.githubusercontent.com/u/69244672?v=4"
+                alt=""
+                width="44"
+                height="44"
+              />
+              <span>
+                <strong>Aravind S Asok</strong>
+                <small>SOFTWARE ENGINEER</small>
+              </span>
+            </a>
 
-        <button
-          className="menu-toggle"
-          type="button"
-          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={menuOpen}
-          aria-controls="primary-navigation"
-          onClick={() => setMenuOpen(!menuOpen)}>
-          <span />
-          <span />
-        </button>
+            <p className="mni-bio">
+              Building dependable backend systems and practical AI products. Interested in the
+              engineering behind software that is genuinely useful.
+            </p>
 
-        <nav className={menuOpen ? 'site-nav is-open' : 'site-nav'} id="primary-navigation" aria-label="Primary navigation">
-          <a href="#projects" onClick={closeMenu}><span>01</span> Projects</a>
-          <a href="#archive" onClick={closeMenu}><span>02</span> Archive</a>
-          <a href="#activity" onClick={closeMenu}><span>03</span> Activity</a>
-          <a className="nav-contact" href="#contact" onClick={closeMenu}>Get in touch <span aria-hidden="true">↗</span></a>
-        </nav>
-      </header>
+            <div className="mni-presence">
+              <span className="mni-online-dot" />
+              <span>OPEN TO INTERESTING WORK</span>
+            </div>
 
-      <main id="main-content">
-        <section className="hero section-shell" aria-labelledby="hero-title">
-          <div className="hero-overline">
-            <span className="status-dot" />
-            <span>SOFTWARE ENGINEER / BACKEND + APPLIED AI</span>
-            <span className="hero-location">PORTFOLIO · 2026</span>
+            <div className="mni-sidebar-block">
+              <span className="mni-label">CURRENT TOOLKIT</span>
+              <div className="mni-stack">
+                {['Node.js', 'NestJS', 'TypeScript', 'Python', 'PostgreSQL', 'AWS', 'Docker', 'LLM / RAG'].map(item => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mni-sidebar-block mni-profile-links">
+              <span className="mni-label">ELSEWHERE</span>
+              {socialLinks.map(link => (
+                <a href={link.href} key={link.label} target={link.label === 'Email' ? undefined : '_blank'} rel={link.label === 'Email' ? undefined : 'noopener noreferrer'}>
+                  {link.label}<span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+
+            <nav className="mni-index" aria-label="Page index">
+              <span className="mni-label">ON THIS PAGE</span>
+              <a href="#projects"><span>01</span> Selected work</a>
+              <a href="#archive"><span>02</span> Project archive</a>
+              <a href="#activity"><span>03</span> Activity</a>
+              <a href="#contact"><span>04</span> Contact</a>
+            </nav>
           </div>
 
-          <div className="hero-title-wrap">
+          <div className="mni-sidebar-foot">
+            <span>THIRUVANANTHAPURAM, INDIA</span>
+            <span>© 2026</span>
+          </div>
+        </aside>
+
+        <main className="mni-main" id="main-content">
+          <div className="mni-topbar">
+            <span><i className="mni-live-indicator" /> INDEPENDENTLY BUILDING</span>
+            <span>PERSONAL PORTFOLIO <b> / </b> 2026</span>
+          </div>
+
+          <section className="mni-hero" aria-labelledby="hero-title">
+            <div className="mni-hero-kicker"><span>HELLO, I’M</span><span>01 / 04 — INTRODUCTION</span></div>
             <h1 id="hero-title">
               <span>Aravind</span>
-              <span className="hero-second-line">S Asok<span className="hero-period">.</span></span>
+              <span>S Asok<span className="mni-orange">.</span></span>
             </h1>
-            <div className="hero-side-note">
-              <span className="side-note-rule" />
-              <p>Building reliable systems<br />and useful AI products.</p>
-              <a href="#projects" aria-label="Scroll to selected projects">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
-            </div>
-          </div>
-
-          <div className="hero-bottom">
-            <p className="hero-intro">
-              I’m a software engineer focused on the foundations of useful software — scalable APIs,
-              dependable backend systems, and practical AI applications.
+            <p className="mni-hero-copy">
+              Software engineer focused on <strong>backend engineering</strong>, scalable APIs,
+              and <strong>applied AI</strong>. I turn ideas into reliable products — from the
+              database layer to the interface people use.
             </p>
-            <div className="hero-facts">
-              <div><strong>18</strong><span>PROJECTS</span></div>
-              <div><strong>03</strong><span>CORE LANGUAGES</span></div>
-              <div><strong>∞</strong><span>IDEAS TO BUILD</span></div>
+            <div className="mni-hero-bottom">
+              <a className="mni-primary-link" href="#projects">EXPLORE SELECTED WORK <span aria-hidden="true">↓</span></a>
+              <div className="mni-hero-meta"><span>BACKEND / AI / BUILDING</span><span>KERALA, INDIA</span></div>
             </div>
-          </div>
+          </section>
 
-          <div className="hero-stack" aria-label="Technology stack">
-            <span>NODE.JS</span><span>NESTJS</span><span>TYPESCRIPT</span><span>PYTHON</span><span>POSTGRESQL</span><span>LLM / RAG</span>
-          </div>
-        </section>
-
-        <section className="featured-section section-shell" id="projects">
-          <SectionHeading number="01" title="Selected projects" note="A few things I’ve been building across backend engineering, document intelligence, and applied AI." />
-          <div className="featured-grid">
-            {featuredProjects.map((project, index) => (
-              <article className="featured-card" data-reveal key={project.title} style={{ '--reveal-delay': String(index * 70) + 'ms' }}>
-                <div className="card-visual">
-                  <img
-                    src={withPrefix(project.image)}
-                    alt={project.title + ' project preview'}
-                    loading={index < 2 ? 'eager' : 'lazy'}
-                    onError={event => { event.currentTarget.style.display = 'none'; }}
-                  />
-                  <span className="visual-index">0{index + 1} / 06</span>
-                  <span className="visual-year">{project.year}</span>
-                </div>
-                <div className="card-content">
-                  <div className="card-category">{project.category}</div>
-                  <div className="card-title-row">
-                    <h3>{project.title}</h3>
-                    <span className="card-arrow" aria-hidden="true">↗</span>
-                  </div>
-                  <p>{project.description}</p>
-                  <ul className="tech-list">
-                    {project.tech.map(item => <li key={item}>{item}</li>)}
-                  </ul>
-                  <div className="card-links">
-                    {project.repo ? <a href={project.repo} target="_blank" rel="noopener noreferrer">SOURCE <span aria-hidden="true">↗</span></a> : null}
-                    {project.live ? <a href={project.live} target="_blank" rel="noopener noreferrer">LIVE PROJECT <span aria-hidden="true">↗</span></a> : null}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="archive-section section-shell" id="archive">
-          <SectionHeading number="02" title="More projects" note="Experiments, utilities, and products from across the years." />
-          <div className="archive-topline">
-            <span>PROJECT INDEX</span>
-            <span>12 ENTRIES</span>
-          </div>
-          <ol className="archive-grid">
-            {archiveProjects.map((project, index) => (
-              <li data-reveal key={project.title} style={{ '--reveal-delay': String(index * 35) + 'ms' }}>
-                <span className="archive-number">{String(index + 7).padStart(2, '0')}</span>
-                <div className="archive-copy">
-                  <a href={'https://github.com/AravindSAsok/' + project.repo} target="_blank" rel="noopener noreferrer">
-                    <h3>{project.title}<span aria-hidden="true"> ↗</span></h3>
+          <section className="mni-section" id="projects">
+            <SectionHeading
+              number="01"
+              title="Selected work"
+              note="A selection of products, experiments, and engineering work across backend systems and applied AI."
+            />
+            <div className="mni-grid">
+              {featuredProjects.map((project, index) => (
+                <article className="mni-project" data-reveal key={project.title} style={{ '--reveal-delay': String(index * 55) + 'ms' }}>
+                  <a
+                    className="mni-project-image"
+                    href={project.live || project.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={'Open ' + project.title}>
+                    <img
+                      src={withPrefix(project.image)}
+                      alt={project.title + ' project preview'}
+                      loading={index < 2 ? 'eager' : 'lazy'}
+                      onError={event => { event.currentTarget.style.display = 'none'; }}
+                    />
+                    <span className="mni-image-index">0{index + 1} / 06</span>
+                    <span className="mni-image-arrow" aria-hidden="true">↗</span>
                   </a>
-                  <p>{project.description}</p>
-                  <div className="archive-meta"><span>{project.language}</span><span>{project.year}</span></div>
+
+                  <div className="mni-project-content">
+                    <div className="mni-project-meta"><span>{project.category}</span><span>{project.year}</span></div>
+                    <h3><a href={project.live || project.repo} target="_blank" rel="noopener noreferrer">{project.title}</a></h3>
+                    <p>{project.description}</p>
+                    <ul className="mni-tech-list">
+                      {project.tech.map(item => <li key={item}>{item}</li>)}
+                    </ul>
+                    <div className="mni-project-links">
+                      {project.live ? <a href={project.live} target="_blank" rel="noopener noreferrer">LIVE <span aria-hidden="true">↗</span></a> : null}
+                      {project.repo ? <a href={project.repo} target="_blank" rel="noopener noreferrer">SOURCE <span aria-hidden="true">↗</span></a> : null}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="mni-section mni-archive-section" id="archive">
+            <SectionHeading
+              number="02"
+              title="Project archive"
+              note="A longer index of experiments, utilities, client-style builds, and products from across the years."
+            />
+            <div className="mni-archive-head"><span>INDEX / 07—18</span><span>12 PROJECTS</span></div>
+            <ol className="mni-archive">
+              {archiveProjects.map((project, index) => (
+                <li data-reveal key={project.title} style={{ '--reveal-delay': String(index * 24) + 'ms' }}>
+                  <span className="mni-archive-no">{String(index + 7).padStart(2, '0')}</span>
+                  <div className="mni-archive-copy">
+                    <a href={'https://github.com/AravindSAsok/' + project.repo} target="_blank" rel="noopener noreferrer">
+                      <h3>{project.title}<span aria-hidden="true"> ↗</span></h3>
+                    </a>
+                    <p>{project.description}</p>
+                  </div>
+                  <span className="mni-archive-language">{project.language}</span>
+                  <span className="mni-archive-year">{project.year}</span>
+                  {project.live ? (
+                    <a className="mni-archive-live" href={project.live} target="_blank" rel="noopener noreferrer">LIVE ↗</a>
+                  ) : (
+                    <a className="mni-archive-live" href={'https://github.com/AravindSAsok/' + project.repo} target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+                  )}
+                </li>
+              ))}
+            </ol>
+            <a className="mni-all-repos" href="https://github.com/AravindSAsok?tab=repositories" target="_blank" rel="noopener noreferrer">
+              EXPLORE ALL REPOSITORIES <span aria-hidden="true">↗</span>
+            </a>
+          </section>
+
+          <section className="mni-section mni-activity-section" id="activity">
+            <SectionHeading
+              number="03"
+              title="Building in public"
+              note="A live view of my public GitHub contribution history."
+            />
+            <div className="mni-activity" data-reveal>
+              <div className="mni-activity-top">
+                <div>
+                  <span className="mni-label">OPEN SOURCE / IN THE MAKING</span>
+                  <h3>Small commits.<br />Steady progress.</h3>
                 </div>
-                {project.live ? <a className="archive-live" href={project.live} target="_blank" rel="noopener noreferrer">LIVE ↗</a> : <span className="archive-github">GITHUB ↗</span>}
-              </li>
-            ))}
-          </ol>
-          <a className="all-projects-link" href="https://github.com/AravindSAsok?tab=repositories" target="_blank" rel="noopener noreferrer">
-            Explore all repositories <span aria-hidden="true">↗</span>
-          </a>
-        </section>
-
-        <section className="activity-section section-shell" id="activity">
-          <SectionHeading number="03" title="GitHub activity" note="A live view of my public contribution history." />
-          <div className="activity-panel" data-reveal>
-            <div className="activity-panel-head">
-              <div><span className="activity-label">OPEN SOURCE / IN THE MAKING</span><h3>Small commits.<br />Steady progress.</h3></div>
-              <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">VIEW GITHUB <span aria-hidden="true">↗</span></a>
+                <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">VIEW GITHUB <span aria-hidden="true">↗</span></a>
+              </div>
+              <div className="mni-contribution">
+                <img
+                  src="https://ghchart.rshah.org/AravindSAsok"
+                  alt="GitHub contribution graph for AravindSAsok"
+                  loading="lazy"
+                  onError={event => { event.currentTarget.style.display = 'none'; }}
+                />
+              </div>
+              <div className="mni-activity-foot"><span>PUBLIC CONTRIBUTIONS</span><span>GITHUB.COM / ARAVINDSASOK</span></div>
             </div>
-            <div className="contribution-wrap">
-              <img
-                src="https://ghchart.rshah.org/AravindSAsok"
-                alt="GitHub contribution graph for AravindSAsok"
-                loading="lazy"
-                onError={event => { event.currentTarget.style.display = 'none'; }}
-              />
-              <p>Contribution chart is provided from the public GitHub profile. Select “View GitHub” for the latest activity and repositories.</p>
-            </div>
-            <div className="activity-footer"><span>BUILDING IN PUBLIC</span><span>GITHUB.COM / ARAVINDSASOK</span></div>
-          </div>
-        </section>
+          </section>
 
-        <section className="contact-section section-shell" id="contact">
-          <div className="contact-copy" data-reveal>
-            <span className="contact-kicker">HAVE A PROJECT IN MIND?</span>
-            <h2>Let’s make<br /><em>something useful.</em></h2>
-            <p>I’m open to conversations about backend engineering, AI-powered products, and interesting problems worth solving.</p>
-            <a className="direct-email" href={'mailto:' + email}>{email} <span aria-hidden="true">↗</span></a>
-            <div className="contact-socials">
-              {socialLinks.map(link => <a href={link.href} key={link.label} target={link.label === 'Email' ? undefined : '_blank'} rel={link.label === 'Email' ? undefined : 'noopener noreferrer'}>{link.label} <span aria-hidden="true">↗</span></a>)}
+          <section className="mni-section mni-contact-section" id="contact">
+            <SectionHeading
+              number="04"
+              title="Write a message"
+              note="Have a project, technical idea, or opportunity to discuss? Send a note."
+            />
+            <div className="mni-contact-grid">
+              <div className="mni-contact-copy" data-reveal>
+                <h3>Let’s build<br /><span>something useful.</span></h3>
+                <p>I’m always glad to connect with people solving interesting problems in software, backend engineering, and applied AI.</p>
+                <a href={'mailto:' + email}>{email}<span aria-hidden="true"> ↗</span></a>
+              </div>
+              <form className="mni-contact-form" data-reveal onSubmit={handleContactSubmit}>
+                <label htmlFor="contact-name">YOUR NAME</label>
+                <input id="contact-name" name="name" type="text" placeholder="Name" autoComplete="name" required />
+                <label htmlFor="contact-email">EMAIL ADDRESS</label>
+                <input id="contact-email" name="email" type="email" placeholder="you@example.com" autoComplete="email" required />
+                <label htmlFor="contact-message">MESSAGE</label>
+                <textarea id="contact-message" name="message" rows="4" placeholder="What would you like to talk about?" required />
+                <button type="submit">OPEN EMAIL DRAFT <span aria-hidden="true">↗</span></button>
+                <p className="mni-form-note">This site opens your email app with the message ready to send. Nothing is stored here.</p>
+              </form>
             </div>
-          </div>
-          <form className="contact-form" data-reveal onSubmit={handleContactSubmit}>
-            <div className="form-heading"><span>01 — SAY HELLO</span><p>Tell me a little about what you’re working on.</p></div>
-            <label htmlFor="contact-name">YOUR NAME</label>
-            <input id="contact-name" name="name" type="text" placeholder="Name" autoComplete="name" required />
-            <label htmlFor="contact-email">EMAIL ADDRESS</label>
-            <input id="contact-email" name="email" type="email" placeholder="you@example.com" autoComplete="email" required />
-            <label htmlFor="contact-message">MESSAGE</label>
-            <textarea id="contact-message" name="message" rows="5" placeholder="A little context about your idea..." required />
-            <button type="submit">OPEN EMAIL DRAFT <span aria-hidden="true">↗</span></button>
-            <p className="form-note">This static site opens your email app with the message ready to send. Nothing is stored here.</p>
-          </form>
-        </section>
-      </main>
+          </section>
 
-      <footer className="site-footer">
-        <div className="footer-top">
-          <a href="#top" className="footer-wordmark">ARAVIND<br />S ASOK<span>.</span></a>
-          <div className="footer-links">
-            <a href="#projects">PROJECTS</a>
-            <a href="#activity">ACTIVITY</a>
-            <a href="#contact">CONTACT</a>
-            <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
-          </div>
-        </div>
-        <div className="footer-bottom"><span>© 2026 ARAVIND S ASOK</span><span>BUILT WITH CARE · GATSBY + REACT</span><a href="#top">BACK TO TOP ↑</a></div>
-      </footer>
+          <footer className="mni-footer">
+            <div><strong>ARAVIND S ASOK<span>.</span></strong><span>SOFTWARE ENGINEER / BACKEND + APPLIED AI</span></div>
+            <div className="mni-footer-links">
+              <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+              <a href="https://www.linkedin.com/in/aravind-asok/" target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a>
+              <a href="#top">BACK TO TOP ↑</a>
+            </div>
+            <small>© 2026 ARAVIND S ASOK · BUILT WITH GATSBY + REACT</small>
+          </footer>
+        </main>
+      </div>
+
+      <a className="mni-float-contact" href={'mailto:' + email} aria-label="Email Aravind">↗</a>
     </div>
   );
 };
