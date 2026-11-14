@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import anime from 'animejs';
 import ScrollReveal from 'scrollreveal';
+import Lenis from 'lenis';
 import { email } from '@config';
 import './portfolio.css';
 
@@ -85,8 +86,15 @@ const Portfolio = () => {
   const [indexOpen, setIndexOpen] = useState(false);
 
   useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+      anchors: true,
+      smoothWheel: true,
+    });
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return undefined;
+    if (prefersReducedMotion) {
+      return () => lenis.destroy();
+    }
 
     const intro = anime.timeline({ easing: 'easeOutCubic' });
     intro
@@ -130,6 +138,7 @@ const Portfolio = () => {
     reveal.reveal('.mni-activity-panel, .mni-contact > h2, .mni-contact-grid', { origin: 'bottom', distance: '36px', duration: 850 });
 
     return () => {
+      lenis.destroy();
       intro.pause();
       reveal.destroy();
     };
