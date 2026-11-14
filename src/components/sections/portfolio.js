@@ -5,6 +5,16 @@ import './portfolio.css';
 
 const featuredProjects = [
   {
+    title: 'AravindSAsok',
+    category: 'Personal portfolio',
+    description: 'A Gatsby and React portfolio built with styled-components, bringing together selected engineering work, projects, and ways to connect.',
+    image: '/og.png',
+    year: '2026',
+    tech: ['Gatsby', 'React', 'styled-components'],
+    repo: 'https://github.com/AravindSAsok/AravindSAsok',
+    live: 'https://aravindsasok.netlify.app/',
+  },
+  {
     title: 'EvidencePilot',
     category: 'AI research assistant',
     description: 'A research workspace that reads PDFs, retrieves supporting passages, and produces source-grounded answers with page citations. Includes claim review and retrieval evaluation workflows.',
@@ -52,16 +62,6 @@ const featuredProjects = [
     tech: ['Python', 'RAG', 'Embeddings', 'LLMs'],
     repo: 'https://github.com/AravindSAsok/mini-rag',
     live: 'https://exo-rag.streamlit.app/',
-  },
-  {
-    title: 'Hourly',
-    category: 'Work-time tracker',
-    description: 'A work-time tracker with punch and break records, daily and weekly totals, history, reports, and CSV exports. Breaks under 15 minutes remain paid; breaks of 15 minutes or longer are deducted in full.',
-    image: '/projects/hourly.png',
-    year: '2026',
-    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL'],
-    repo: 'https://github.com/AravindSAsok/hourly',
-    live: 'https://hourly-psi.vercel.app/dashboard',
   },
 ];
 
