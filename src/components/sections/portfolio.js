@@ -213,7 +213,6 @@ const Portfolio = () => {
         <section className="mni-hero" aria-labelledby="hero-title">
           <div className="mni-hero-grid" aria-hidden="true" />
 
-          <p className="mni-hero-index-label">Projects, 01 to 06</p>
           <h1 id="hero-title">Aravind S Asok</h1>
 
           <p className="mni-hero-scroll">
@@ -380,8 +379,9 @@ const Portfolio = () => {
         <section className="mni-section mni-activity" id="activity" aria-labelledby="activity-title">
           <div className="mni-section-kicker">
             <span>(03)</span>
-            <span>Nov 2025 to Nov 2026</span>
+            <span>Activity · Nov 2025 to Nov 2026</span>
           </div>
+          <h2 className="mni-visually-hidden" id="activity-title">GitHub activity</h2>
 
           <div className="mni-activity-summary">
             <div className="mni-activity-total">
@@ -396,18 +396,19 @@ const Portfolio = () => {
             </dl>
           </div>
 
-          <p className="mni-activity-snapshot" id="activity-title">
-            Archived statistics from the reference audit on November 14, 2026.
+          <p className="mni-activity-snapshot">
+            Archived reference audit snapshot · November 2025 to November 2026 (captured November 14, 2026). These figures are historical, not live.
           </p>
 
           {!graphFailed ? (
             <figure className="mni-contribution-figure">
               <img
-                src="https://ghchart.rshah.org/AravindSAsok"
-                alt="Current public GitHub contribution heatmap for Aravind S Asok."
-                loading="lazy"
-                width="1000"
-                height="700"
+                src="/v13/projects/github-activity-snapshot.png"
+                alt="Archived GitHub contribution calendar for Aravind S Asok, covering November 2025 to November 2026."
+                loading="eager"
+                decoding="async"
+                width="1354"
+                height="240"
                 onError={() => setGraphFailed(true)}
               />
               <figcaption>
