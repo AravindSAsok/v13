@@ -25,7 +25,7 @@ module.exports = {
       options: {
         name: 'Aravind S Asok',
         short_name: 'Aravind S Asok',
-        start_url: '/v13/',
+        start_url: '/',
         background_color: '#0a0a0a',
         theme_color: '#0a0a0a',
         display: 'minimal-ui',
