@@ -1,131 +1,108 @@
-import React, { useEffect } from 'react';
-import { withPrefix } from 'gatsby';
+import React, { useState } from 'react';
 import { email } from '@config';
 import './portfolio.css';
 
 const featuredProjects = [
   {
     title: 'AravindSAsok',
-    category: 'Personal portfolio',
-    description: 'A Gatsby and React portfolio built with styled-components, bringing together selected engineering work, projects, and ways to connect.',
-    image: '/og.png',
-    year: '2026',
-    tech: ['Gatsby', 'React', 'styled-components'],
+    lead: 'Showcases a full-stack engineer’s portfolio built with Gatsby, React and styled-components.',
+    summary: '',
+    language: '',
+    updated: 'Aug 2026',
+    stars: '1',
+    topics: [],
+    repoName: 'AravindSAsok/AravindSAsok',
     repo: 'https://github.com/AravindSAsok/AravindSAsok',
     live: 'https://aravindsasok.netlify.app/',
   },
   {
     title: 'EvidencePilot',
-    category: 'AI research assistant',
-    description: 'A research workspace that reads PDFs, retrieves supporting passages, and produces source-grounded answers with page citations. Includes claim review and retrieval evaluation workflows.',
-    image: '/projects/evidence-pilot.png',
-    year: '2026',
-    tech: ['Python', 'Streamlit', 'Gemini', 'RAG'],
+    lead: 'Python/Streamlit research assistant that extracts PDFs, retrieves evidence, and audits claims with Gemini.',
+    summary: 'EvidencePilot is an AI-powered research assistant that analyzes PDFs, retrieves relevant evidence, generates source-grounded answers with page citations, and audits claims for factual support. Includes semantic and keyword search, a Research Agent, human review workflows, and retrieval evaluation tools.',
+    language: 'Python',
+    updated: 'Nov 2026',
+    topics: ['genai'],
+    repoName: 'AravindSAsok/EvidencePilot',
     repo: 'https://github.com/AravindSAsok/EvidencePilot',
     live: 'https://evidencepilot.streamlit.app/',
   },
   {
     title: 'ProfBot',
-    category: 'Document intelligence',
-    description: 'A document question-answering tool for extracting PDF text, finding relevant passages, and making research material easier to explore.',
-    image: '/projects/profbot-ai.png',
-    year: '2026',
-    tech: ['Python', 'Streamlit', 'PDF', 'LLMs'],
+    lead: 'Python CLI and Streamlit tool for document QA, extracting PDF text and retrieving passages.',
+    summary: 'A lightweight document intelligence tool for exploring PDF content, finding relevant passages, and asking focused questions about research material.',
+    language: 'Python',
+    updated: 'Nov 2026',
+    topics: [],
+    repoName: 'AravindSAsok/ProfBot',
     repo: 'https://github.com/AravindSAsok/ProfBot',
   },
   {
     title: 'Profdoc AI V2',
-    category: 'Personal document assistant',
-    description: 'A document chatbot that connects uploaded knowledge with Gemini-powered question answering and a Supabase-backed application workflow.',
-    image: '/projects/pinkydocs-ai.png',
-    year: '2026',
-    tech: ['Python', 'Streamlit', 'Gemini', 'Supabase'],
+    lead: 'Python/Streamlit chatbot that uses Gemini AI and Supabase to answer questions from user documents.',
+    summary: 'An AI-powered document research assistant that helps users interact with their documents and retrieve relevant information.',
+    language: 'Python',
+    updated: 'Nov 2026',
+    topics: [],
+    repoName: 'AravindSAsok/profdoc_ai_v2',
     repo: 'https://github.com/AravindSAsok/profdoc_ai_v2',
     live: 'https://profdocai.streamlit.app/',
   },
   {
-    title: 'PhD Research Chat',
-    category: 'Research companion',
-    description: 'A research chat application for asking questions across PDF, DOCX, and TXT documents, using Gemini to help surface relevant information.',
-    image: '/projects/pnk-research-chat.png',
-    year: '2026',
-    tech: ['Python', 'Streamlit', 'Gemini', 'Document QA'],
+    title: 'PhD Research Chat MVP',
+    lead: 'Streamlit app that answers questions from uploaded PDFs, DOCX and TXT using Gemini API.',
+    summary: 'A research chat application for asking questions across uploaded PDF, DOCX, and TXT documents with the Gemini API.',
+    language: 'Python',
+    updated: 'Nov 2026',
+    topics: [],
+    repoName: 'AravindSAsok/phd-research-chat-mvp',
     repo: 'https://github.com/AravindSAsok/phd-research-chat-mvp',
     live: 'https://phd-research-chat-mvp-puchki.streamlit.app/',
   },
   {
     title: 'Mini RAG',
-    category: 'Retrieval-augmented generation',
-    description: 'A compact RAG application that retrieves relevant context and uses an LLM to produce focused answers grounded in the source material.',
-    image: '/projects/cookie-rag.png',
-    year: '2026',
-    tech: ['Python', 'RAG', 'Embeddings', 'LLMs'],
+    lead: 'A RAG application with LLM based analysis.',
+    summary: 'A compact retrieval-augmented generation application that retrieves relevant context and uses an LLM to produce focused, source-grounded answers.',
+    language: 'Python',
+    updated: 'Nov 2026',
+    topics: [],
+    repoName: 'AravindSAsok/mini-rag',
     repo: 'https://github.com/AravindSAsok/mini-rag',
     live: 'https://exo-rag.streamlit.app/',
   },
 ];
 
 const archiveProjects = [
-  { title: 'DevFlow API', language: 'Python', year: '2026', description: 'Backend API project.', repo: 'devflow-api' },
+  { title: 'DevFlow API', language: 'Python', year: '2026', description: 'Python API backend for a developer workflow tool.', repo: 'devflow-api' },
   { title: 'Maplewood AI Front Desk', language: 'Python', year: '2026', description: 'An AI-powered front-desk application.', repo: 'maplewood-ai-front-desk' },
-  { title: 'ACME Salary Management', language: 'JavaScript', year: '2026', description: 'Salary management with employee search, salary insights, and updates.', repo: 'acme-salary-management' },
-  { title: 'YT Clone', language: 'JavaScript', year: '2023', description: 'A YouTube-inspired web application.', repo: 'ytclone' },
-  { title: 'Todo App with Node', language: 'JavaScript', year: '2022', description: 'A task management app built with Node.js.', repo: 'todoappwithnode', live: 'https://todoappwithnode.vercel.app' },
+  { title: 'ACME Salary Management', language: 'JavaScript', year: '2026', description: 'Salary management system for ACME’s HR team, built with React.', repo: 'acme-salary-management' },
+  { title: 'YTClone', language: 'JavaScript', year: '2023', description: 'A YouTube-inspired web application.', repo: 'ytclone' },
+  { title: 'Todoappwithnode', language: 'JavaScript', year: '2022', description: 'A task management app built with Node.js.', repo: 'todoappwithnode', live: 'https://todoappwithnode.vercel.app' },
   { title: 'ATextFile', language: 'JavaScript', year: '2022', description: 'A small text-file utility project.', repo: 'atextfile' },
   { title: 'Sequelize Association Migration and Seed', language: 'JavaScript', year: '2022', description: 'A practical Sequelize association, migration, and seed example.', repo: 'sequelize--association-migraton-and-seed' },
-  { title: 'GitHub Slideshow', language: 'Ruby', year: '2020', description: 'A slideshow project built with Ruby.', repo: 'github-slideshow' },
-  { title: 'LineSplit', language: 'JavaScript', year: '2026', description: 'A clipboard text splitter that turns long text into copy-ready chunks.', repo: 'LineSplit' },
-  { title: 'Openfolio', language: 'TypeScript', year: '2026', description: 'A portfolio platform that builds a personal showcase from public GitHub repositories.', repo: 'openfolio' },
-  { title: 'V13', language: 'JavaScript', year: '2026', description: 'This portfolio: Gatsby, React, and styled-components, deployed on GitHub Pages.', repo: 'v13' },
-  { title: 'ClashCommand', language: 'TypeScript', year: '2026', description: 'A Clash of Clans companion for clans, wars, player performance, and CWL history.', repo: 'ClashCommand' },
+  { title: 'GitHub Slideshow', language: 'Ruby', year: '2020', description: 'A robot powered training repository.', repo: 'github-slideshow' },
+  { title: 'LineSplit', language: 'JavaScript', year: '2026', description: 'JavaScript Chrome extension and web app that splits long clipboard text into chunks.', repo: 'LineSplit' },
+  { title: 'Openfolio', language: 'TypeScript', year: '2026', description: 'A platform that builds self-hostable developer portfolios from public GitHub repositories.', repo: 'openfolio' },
+  { title: 'V13', language: 'JavaScript', year: '2026', description: 'Gatsby/React site that presents a personal portfolio focused on backend engineering.', repo: 'v13' },
+  { title: 'ClashCommand', language: 'TypeScript', year: '2026', description: 'A Next.js companion for Clash of Clans clans, wars, player performance, and CWL history.', repo: 'ClashCommand' },
 ];
 
-const socialLinks = [
-  { label: 'GitHub', href: 'https://github.com/AravindSAsok' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aravind-asok/' },
-  { label: 'Email', href: 'mailto:aravindsasok@outlook.com' },
-];
+const monthLabels = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
+const contributionCells = Array.from({ length: 364 }, (_, index) => {
+  const week = Math.floor(index / 7);
+  const day = index % 7;
+  const active = {
+    '46-1': 1, '47-4': 2, '48-0': 1, '48-5': 2,
+    '49-2': 1, '50-1': 3, '50-4': 2, '51-0': 4,
+    '51-2': 3, '51-3': 2, '51-5': 4, '51-6': 4,
+    '49-6': 1, '50-6': 2,
+  };
+  return active[week + '-' + day] || 0;
+});
 
-const SectionHeading = ({ number, title, note }) => (
-  <div className="mni-sec-heading" data-reveal>
-    <div className="mni-sec-title">
-      <span className="mni-sec-number">{number}</span>
-      <h2>{title}</h2>
-    </div>
-    {note ? <p>{note}</p> : null}
-  </div>
-);
+const formatProjectNumber = index => String(index + 1).padStart(2, '0');
 
 const Portfolio = () => {
-  useEffect(() => {
-    const body = document.body;
-    body.classList.add('portfolio-body');
-    const nodes = document.querySelectorAll('[data-reveal]');
-    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (reducedMotion || !('IntersectionObserver' in window)) {
-      nodes.forEach(node => node.classList.add('is-visible'));
-      return () => body.classList.remove('portfolio-body');
-    }
-
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -28px 0px' },
-    );
-
-    nodes.forEach(node => observer.observe(node));
-    return () => {
-      observer.disconnect();
-      body.classList.remove('portfolio-body');
-    };
-  }, []);
+  const [indexOpen, setIndexOpen] = useState(false);
 
   const handleContactSubmit = event => {
     event.preventDefault();
@@ -148,221 +125,223 @@ const Portfolio = () => {
     <div className="portfolio mni-site" id="top">
       <a className="mni-skip-link" href="#main-content">Skip to content</a>
 
-      <div className="mni-shell">
-        <aside className="mni-sidebar" aria-label="Profile and page navigation">
-          <div className="mni-plate">
-            <a className="mni-identity" href="#top" aria-label="Aravind S Asok, back to top">
-              <span className="mni-avatar mni-avatar-mark" aria-hidden="true">A.</span>
-              <span>
-                <strong>Aravind S Asok</strong>
-                <small>SOFTWARE ENGINEER</small>
-              </span>
-            </a>
+      <header className="mni-header" aria-label="Portfolio navigation">
+        <div className="mni-header-stack">
+          <span className="mni-header-label">Stack</span>
+          <span>JavaScript, Python, Ruby, TypeScript</span>
+        </div>
+        <div className="mni-header-profile">
+          <span className="mni-header-label">Profile</span>
+          <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">github.com/aravindsasok</a>
+        </div>
+        <a className="mni-header-contact" href="#contact">Contact</a>
+      </header>
 
-            <p className="mni-bio">
-              Building dependable backend systems and practical AI products. Interested in the
-              engineering behind software that is genuinely useful.
-            </p>
+      <main className="mni-main" id="main-content">
+        <section className="mni-hero" aria-labelledby="hero-title">
+          <div className="mni-hero-grid" aria-hidden="true" />
+          <h1 id="hero-title">Aravind S Asok</h1>
 
-            <div className="mni-presence">
-              <span className="mni-online-dot" />
-              <span>OPEN TO INTERESTING WORK</span>
-            </div>
+          <div className="mni-hero-scroll" aria-hidden="true">
+            <span />
+            <small>Scroll</small>
+          </div>
 
-            <div className="mni-sidebar-block">
-              <span className="mni-label">CURRENT TOOLKIT</span>
-              <div className="mni-stack">
-                {['Node.js', 'NestJS', 'TypeScript', 'Python', 'PostgreSQL', 'AWS', 'Docker', 'LLM / RAG'].map(item => (
-                  <span key={item}>{item}</span>
-                ))}
-              </div>
-            </div>
+          <p className="mni-hero-statement">
+            18 projects in Python, JavaScript and TypeScript.
+          </p>
 
-            <div className="mni-sidebar-block mni-profile-links">
-              <span className="mni-label">ELSEWHERE</span>
-              {socialLinks.map(link => (
-                <a href={link.href} key={link.label} target={link.label === 'Email' ? undefined : '_blank'} rel={link.label === 'Email' ? undefined : 'noopener noreferrer'}>
-                  {link.label}<span aria-hidden="true">↗</span>
+          <figure className="mni-profile-figure">
+            <img
+              src="https://avatars.githubusercontent.com/u/69244672?v=4"
+              alt="Aravind S Asok"
+              width="88"
+              height="88"
+            />
+            <figcaption>Fig. 1</figcaption>
+          </figure>
+
+          <a className="mni-forkfolio-badge" href="https://forkfolio.dev/" target="_blank" rel="noopener noreferrer" aria-label="Made with Forkfolio">
+            <span className="mni-fork-mark" aria-hidden="true">ψ</span>
+            <small>made with forkfolio</small>
+          </a>
+
+          <a className="mni-github-mark" href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.05c-3.1.68-3.76-1.32-3.76-1.32-.5-1.3-1.24-1.65-1.24-1.65-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.71 2.62 1.22 3.26.93.1-.72.39-1.22.71-1.5-2.47-.28-5.07-1.24-5.07-5.5 0-1.22.44-2.21 1.15-2.99-.12-.28-.5-1.42.11-2.95 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.67.11 2.95.72.78 1.15 1.77 1.15 2.99 0 4.27-2.6 5.22-5.09 5.49.4.35.76 1.02.76 2.06V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z" />
+            </svg>
+          </a>
+
+          <div className="mni-index-rail">
+            <button type="button" onClick={() => setIndexOpen(!indexOpen)} aria-expanded={indexOpen} aria-controls="mni-project-index">
+              <span aria-hidden="true">⊕</span>
+              <span>01 Index</span>
+            </button>
+          </div>
+
+          {indexOpen ? (
+            <nav className="mni-index-panel" id="mni-project-index" aria-label="Selected projects">
+              {featuredProjects.map((project, index) => (
+                <a key={project.title} href={'#project-' + (index + 1)} onClick={() => setIndexOpen(false)}>
+                  <span>{formatProjectNumber(index)}</span>{project.title}
                 </a>
               ))}
-            </div>
-
-            <nav className="mni-index" aria-label="Page index">
-              <span className="mni-label">ON THIS PAGE</span>
-              <a href="#projects"><span>01</span> Selected work</a>
-              <a href="#archive"><span>02</span> Project archive</a>
-              <a href="#activity"><span>03</span> Activity</a>
-              <a href="#contact"><span>04</span> Contact</a>
             </nav>
-          </div>
+          ) : null}
+        </section>
 
-          <div className="mni-sidebar-foot">
-            <span>THIRUVANANTHAPURAM, INDIA</span>
-            <span>© 2026</span>
-          </div>
-        </aside>
+        <section className="mni-projects" id="projects" aria-label="Selected projects">
+          <ol className="mni-project-list">
+            {featuredProjects.map((project, index) => (
+              <li className="mni-project-card" id={'project-' + (index + 1)} key={project.title} aria-labelledby={'project-title-' + (index + 1)}>
+                <div className="mni-project-meta">
+                  <span>(01) <strong>Projects</strong></span>
+                  <span>{formatProjectNumber(index)} / 06</span>
+                  <span>{index === 0 ? '' : project.language}</span>
+                  <span>Updated {project.updated}</span>
+                </div>
 
-        <main className="mni-main" id="main-content">
-          <div className="mni-topbar">
-            <span><i className="mni-live-indicator" /> INDEPENDENTLY BUILDING</span>
-            <span>PERSONAL PORTFOLIO <b> / </b> 2026</span>
-          </div>
+                <h2 className="mni-project-title" id={'project-title-' + (index + 1)}>{project.title}</h2>
 
-          <section className="mni-hero" aria-labelledby="hero-title">
-            <div className="mni-hero-kicker"><span>HELLO, I’M</span><span>01 / 04 — INTRODUCTION</span></div>
-            <h1 id="hero-title">
-              <span>Aravind</span>
-              <span>S Asok<span className="mni-orange">.</span></span>
-            </h1>
-            <p className="mni-hero-copy">
-              Software engineer focused on <strong>backend engineering</strong>, scalable APIs,
-              and <strong>applied AI</strong>. I turn ideas into reliable products — from the
-              database layer to the interface people use.
-            </p>
-            <div className="mni-hero-bottom">
-              <a className="mni-primary-link" href="#projects">EXPLORE SELECTED WORK <span aria-hidden="true">↓</span></a>
-              <div className="mni-hero-meta"><span>BACKEND / AI / BUILDING</span><span>KERALA, INDIA</span></div>
-            </div>
-          </section>
+                <div className="mni-project-number" aria-hidden="true">{formatProjectNumber(index)}</div>
 
-          <section className="mni-section" id="projects">
-            <SectionHeading
-              number="01"
-              title="Selected work"
-              note="A selection of products, experiments, and engineering work across backend systems and applied AI."
-            />
-            <div className="mni-grid">
-              {featuredProjects.map((project, index) => (
-                <article className="mni-project" data-reveal key={project.title} style={{ '--reveal-delay': String(index * 55) + 'ms' }}>
-                  <a
-                    className="mni-project-image"
-                    href={project.live || project.repo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={'Open ' + project.title}>
-                    <img
-                      src={withPrefix(project.image)}
-                      alt={project.title + ' project preview'}
-                      loading={index < 2 ? 'eager' : 'lazy'}
-                      onError={event => { event.currentTarget.style.display = 'none'; }}
-                    />
-                    <span className="mni-image-index">0{index + 1} / 06</span>
-                    <span className="mni-image-arrow" aria-hidden="true">↗</span>
-                  </a>
+                <div className="mni-project-content">
+                  <p className="mni-project-lead">{project.lead}</p>
+                  {project.summary ? <p className="mni-project-summary">{project.summary}</p> : null}
 
-                  <div className="mni-project-content">
-                    <div className="mni-project-meta"><span>{project.category}</span><span>{project.year}</span></div>
-                    <h3><a href={project.live || project.repo} target="_blank" rel="noopener noreferrer">{project.title}</a></h3>
-                    <p>{project.description}</p>
-                    <ul className="mni-tech-list">
-                      {project.tech.map(item => <li key={item}>{item}</li>)}
+                  <div className="mni-project-details">
+                    <dl className="mni-project-facts">
+                      {project.stars ? (
+                        <div><dt>Stars</dt><dd>{project.stars}</dd></div>
+                      ) : null}
+                      {project.language ? <div><dt>Language</dt><dd>{project.language}</dd></div> : null}
+                      <div><dt>Updated</dt><dd>{project.updated}</dd></div>
+                      {project.topics.length ? <div><dt>Topics</dt><dd>{project.topics.join(', ')}</dd></div> : null}
+                    </dl>
+
+                    <ul className="mni-project-links">
+                      {project.live ? (
+                        <li>
+                          <span>Live site</span>
+                          <a href={project.live} target="_blank" rel="noopener noreferrer">{project.live.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a>
+                        </li>
+                      ) : null}
+                      <li>
+                        <span>Source</span>
+                        <a href={project.repo} target="_blank" rel="noopener noreferrer">{project.repoName}</a>
+                      </li>
                     </ul>
-                    <div className="mni-project-links">
-                      {project.live ? <a href={project.live} target="_blank" rel="noopener noreferrer">LIVE <span aria-hidden="true">↗</span></a> : null}
-                      {project.repo ? <a href={project.repo} target="_blank" rel="noopener noreferrer">SOURCE <span aria-hidden="true">↗</span></a> : null}
-                    </div>
                   </div>
-                </article>
-              ))}
-            </div>
-          </section>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-          <section className="mni-section mni-archive-section" id="archive">
-            <SectionHeading
-              number="02"
-              title="Project archive"
-              note="A longer index of experiments, utilities, client-style builds, and products from across the years."
-            />
-            <div className="mni-archive-head"><span>INDEX / 07—18</span><span>12 PROJECTS</span></div>
-            <ol className="mni-archive">
-              {archiveProjects.map((project, index) => (
-                <li data-reveal key={project.title} style={{ '--reveal-delay': String(index * 24) + 'ms' }}>
-                  <span className="mni-archive-no">{String(index + 7).padStart(2, '0')}</span>
-                  <div className="mni-archive-copy">
-                    <a href={'https://github.com/AravindSAsok/' + project.repo} target="_blank" rel="noopener noreferrer">
-                      <h3>{project.title}<span aria-hidden="true"> ↗</span></h3>
-                    </a>
+        <section className="mni-section mni-archive" id="archive" aria-labelledby="archive-title">
+          <div className="mni-section-kicker"><span>(02)</span><span>Archive, 12</span></div>
+          <h2 id="archive-title">More projects</h2>
+          <ol className="mni-archive-list" start="7">
+            {archiveProjects.map((project, index) => {
+              const repositoryUrl = 'https://github.com/AravindSAsok/' + project.repo;
+              return (
+                <li key={project.repo}>
+                  <span className="mni-archive-number">{String(index + 7).padStart(2, '0')}</span>
+                  <div className="mni-archive-name">
+                    <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">{project.title}<span aria-hidden="true"> ↗</span></a>
                     <p>{project.description}</p>
                   </div>
                   <span className="mni-archive-language">{project.language}</span>
                   <span className="mni-archive-year">{project.year}</span>
-                  {project.live ? (
-                    <a className="mni-archive-live" href={project.live} target="_blank" rel="noopener noreferrer">LIVE ↗</a>
-                  ) : (
-                    <a className="mni-archive-live" href={'https://github.com/AravindSAsok/' + project.repo} target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
-                  )}
+                  <a className="mni-archive-open" href={project.live || repositoryUrl} target="_blank" rel="noopener noreferrer">
+                    {project.live ? 'Live site' : 'Source'} <span aria-hidden="true">↗</span>
+                  </a>
                 </li>
+              );
+            })}
+          </ol>
+        </section>
+
+        <section className="mni-section mni-activity" id="activity" aria-labelledby="activity-title">
+          <div className="mni-section-kicker"><span>(03)</span><span>Nov 2025 to Nov 2026</span></div>
+          <div className="mni-activity-summary">
+            <div className="mni-activity-total">
+              <strong>134</strong>
+              <span>contributions in the last year</span>
+            </div>
+            <dl className="mni-activity-stats">
+              <div><dt>Active days</dt><dd>14</dd></div>
+              <div><dt>Busiest week</dt><dd>112</dd></div>
+              <div><dt>Longest run</dt><dd>3 days</dd></div>
+            </dl>
+          </div>
+          <h2 id="activity-title" className="mni-visually-hidden">GitHub activity</h2>
+          <figure className="mni-contribution-figure" aria-label="Contribution activity from November 2025 to November 2026">
+            <div className="mni-months" aria-hidden="true">
+              {monthLabels.map((month, index) => <span key={month + index}>{month}</span>)}
+            </div>
+            <div className="mni-contribution-grid" role="img" aria-label="Contribution graph showing activity during the last year">
+              {contributionCells.map((level, index) => (
+                <span className={'mni-contribution-cell level-' + level} key={index} />
               ))}
-            </ol>
-            <a className="mni-all-repos" href="https://github.com/AravindSAsok?tab=repositories" target="_blank" rel="noopener noreferrer">
-              EXPLORE ALL REPOSITORIES <span aria-hidden="true">↗</span>
-            </a>
-          </section>
-
-          <section className="mni-section mni-activity-section" id="activity">
-            <SectionHeading
-              number="03"
-              title="Building in public"
-              note="A live view of my public GitHub contribution history."
-            />
-            <div className="mni-activity" data-reveal>
-              <div className="mni-activity-top">
-                <div>
-                  <span className="mni-label">OPEN SOURCE / IN THE MAKING</span>
-                  <h3>Small commits.<br />Steady progress.</h3>
-                </div>
-                <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">VIEW GITHUB <span aria-hidden="true">↗</span></a>
-              </div>
-              <div className="mni-contribution">
-                <img
-                  src="https://ghchart.rshah.org/AravindSAsok"
-                  alt="GitHub contribution graph for AravindSAsok"
-                  loading="lazy"
-                  onError={event => { event.currentTarget.style.display = 'none'; }}
-                />
-              </div>
-              <div className="mni-activity-foot"><span>PUBLIC CONTRIBUTIONS</span><span>GITHUB.COM / ARAVINDSASOK</span></div>
             </div>
-          </section>
+            <figcaption>
+              <span>Nov 2025</span>
+              <span className="mni-contribution-legend">Less <i className="level-0" /><i className="level-1" /><i className="level-2" /><i className="level-3" /><i className="level-4" /> More</span>
+              <span>Nov 2026</span>
+            </figcaption>
+          </figure>
+        </section>
 
-          <section className="mni-section mni-contact-section" id="contact">
-            <SectionHeading
-              number="04"
-              title="Write a message"
-              note="Have a project, technical idea, or opportunity to discuss? Send a note."
-            />
-            <div className="mni-contact-grid">
-              <div className="mni-contact-copy" data-reveal>
-                <h3>Let’s build<br /><span>something useful.</span></h3>
-                <p>I’m always glad to connect with people solving interesting problems in software, backend engineering, and applied AI.</p>
-                <a href={'mailto:' + email}>{email}<span aria-hidden="true"> ↗</span></a>
+        <section className="mni-section mni-contact" id="contact" aria-labelledby="contact-title">
+          <div className="mni-section-kicker"><span>(04)</span></div>
+          <h2 id="contact-title">Contact</h2>
+
+          <div className="mni-contact-grid">
+            <div className="mni-contact-social">
+              <p>Write to Aravind directly, or find them here</p>
+              <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">
+                <strong>GitHub</strong>
+                <span>github.com/aravindsasok</span>
+              </a>
+              <a className="mni-contact-email" href="https://www.linkedin.com/in/aravind-asok/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+              <a className="mni-contact-email" href={'mailto:' + email}>{email}</a>
+            </div>
+
+            <form className="mni-contact-form" onSubmit={handleContactSubmit}>
+              <p>Write a message</p>
+              <div className="mni-contact-fields">
+                <label>
+                  <span>Name</span>
+                  <input name="name" type="text" placeholder="Jane Recruiter" autoComplete="name" required />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input name="email" type="email" placeholder="jane@company.com" autoComplete="email" required />
+                </label>
               </div>
-              <form className="mni-contact-form" data-reveal onSubmit={handleContactSubmit}>
-                <label htmlFor="contact-name">YOUR NAME</label>
-                <input id="contact-name" name="name" type="text" placeholder="Name" autoComplete="name" required />
-                <label htmlFor="contact-email">EMAIL ADDRESS</label>
-                <input id="contact-email" name="email" type="email" placeholder="you@example.com" autoComplete="email" required />
-                <label htmlFor="contact-message">MESSAGE</label>
-                <textarea id="contact-message" name="message" rows="4" placeholder="What would you like to talk about?" required />
-                <button type="submit">OPEN EMAIL DRAFT <span aria-hidden="true">↗</span></button>
-                <p className="mni-form-note">This site opens your email app with the message ready to send. Nothing is stored here.</p>
-              </form>
-            </div>
-          </section>
+              <label className="mni-message-field">
+                <span>Message</span>
+                <textarea name="message" rows="3" placeholder="Tell me about the role / project..." required />
+              </label>
+              <button type="submit">Send message</button>
+              <small>This opens a prefilled email in your email application. No message is stored on this site.</small>
+            </form>
+          </div>
+        </section>
 
-          <footer className="mni-footer">
-            <div><strong>ARAVIND S ASOK<span>.</span></strong><span>SOFTWARE ENGINEER / BACKEND + APPLIED AI</span></div>
-            <div className="mni-footer-links">
-              <a href="https://github.com/AravindSAsok" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
-              <a href="https://www.linkedin.com/in/aravind-asok/" target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a>
-              <a href="#top">BACK TO TOP ↑</a>
-            </div>
-            <small>© 2026 ARAVIND S ASOK · BUILT WITH GATSBY + REACT</small>
-          </footer>
-        </main>
-      </div>
+        <footer className="mni-footer">
+          <span>© 2026 Aravind S Asok</span>
+          <a href="#top">Back to top ↑</a>
+          <span>Built with <a href="https://forkfolio.dev/" target="_blank" rel="noopener noreferrer">Forkfolio</a></span>
+        </footer>
+      </main>
 
-      <a className="mni-float-contact" href={'mailto:' + email} aria-label="Email Aravind">↗</a>
+      <a className="mni-open-chat" href="#contact" aria-label="Open chat — go to contact form">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l1.4-3.1A7.5 7.5 0 1 1 20 11.5Z" />
+        </svg>
+      </a>
     </div>
   );
 };
