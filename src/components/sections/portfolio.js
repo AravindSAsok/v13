@@ -100,7 +100,6 @@ const archiveProjects = [
     language: 'JavaScript',
     year: '2022',
     repo: 'https://github.com/AravindSAsok/todoappwithnode',
-    live: 'https://todoappwithnode.vercel.app/',
   },
   {
     title: 'ATextFile',
